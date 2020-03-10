@@ -2,6 +2,7 @@
 [[entity]]
 
     [entity.components.SpriteRender]
+    # Load from a spritesheet
     sprite_sheet_name = "gopher"
     sprite_number = 0
 
@@ -18,6 +19,7 @@
 [[entity]]
 
     [entity.components.SpriteRender]
+    # Load from a colored rectangle image
     fill = { width = 300, height = 300, color = [0, 0, 0, 255] }
 
     [entity.components.Transform]
@@ -29,6 +31,7 @@
 [[entity]]
 
     [entity.components.SpriteRender]
+    # Load from a colored rectangle image
     fill = { width = 300, height = 300, color = [60, 0, 0, 255] }
 
     [entity.components.Transform]
@@ -40,6 +43,7 @@
 [[entity]]
 
     [entity.components.SpriteRender]
+    # Load from a colored rectangle image
     fill = { width = 300, height = 300, color = [120, 0, 0, 255] }
 
     [entity.components.Transform]
@@ -51,6 +55,7 @@
 [[entity]]
 
     [entity.components.SpriteRender]
+    # Load from a colored rectangle image
     fill = { width = 300, height = 300, color = [180, 0, 0, 255] }
 
     [entity.components.Transform]
