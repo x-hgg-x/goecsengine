@@ -7,6 +7,7 @@ import (
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
 // InputSystem updates input axis values and actions
@@ -62,10 +63,17 @@ func getAxisValue(world w.World, axis resources.Axis) float64 {
 }
 
 func isActionDone(action resources.Action) bool {
-	for _, combination := range action {
+	var funcPressed func(resources.Button) bool
+	if action.Once {
+		funcPressed = isJustPressed
+	} else {
+		funcPressed = isPressed
+	}
+
+	for _, combination := range action.Combinations {
 		actionDone := true
 		for _, button := range combination {
-			actionDone = actionDone && isPressed(button)
+			actionDone = actionDone && funcPressed(button)
 		}
 		if actionDone {
 			return true
@@ -82,6 +90,18 @@ func isPressed(b resources.Button) bool {
 		return ebiten.IsMouseButtonPressed(b.MouseButton.MouseButton)
 	case "ControllerButton":
 		return ebiten.IsGamepadButtonPressed(b.ControllerButton.ID, b.ControllerButton.GamepadButton)
+	}
+	return false
+}
+
+func isJustPressed(b resources.Button) bool {
+	switch b.Type {
+	case "Key":
+		return inpututil.IsKeyJustPressed(b.Key.Key)
+	case "MouseButton":
+		return inpututil.IsMouseButtonJustPressed(b.MouseButton.MouseButton)
+	case "ControllerButton":
+		return inpututil.IsGamepadButtonJustPressed(b.ControllerButton.ID, b.ControllerButton.GamepadButton)
 	}
 	return false
 }

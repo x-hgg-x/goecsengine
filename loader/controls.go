@@ -47,9 +47,9 @@ func LoadControls(controlsConfigPath string, axes []string, actions []string) (r
 
 	// Set "Type" field for actions
 	for k, v := range controlsConfig.Controls.Actions {
-		for i := range v {
-			for j := range v[i] {
-				setTypeFields(reflect.ValueOf(&v[i][j]))
+		for i := range v.Combinations {
+			for j := range v.Combinations[i] {
+				setTypeFields(reflect.ValueOf(&v.Combinations[i][j]))
 			}
 		}
 		controlsConfig.Controls.Actions[k] = v

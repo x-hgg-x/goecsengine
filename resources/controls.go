@@ -88,8 +88,13 @@ type Axis struct {
 	MouseAxis      *MouseAxis      `toml:"mouse_axis"`
 }
 
-// Action contains buttons combinations
-type Action = [][]Button
+// Action contains buttons combinations with settings
+type Action struct {
+	// Combinations contains buttons combinations
+	Combinations [][]Button
+	// Once determines if the action should be triggered every frame when the button is pressed (default) or only once
+	Once bool
+}
 
 // Controls contains input controls
 type Controls struct {
