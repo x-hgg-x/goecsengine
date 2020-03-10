@@ -14,7 +14,7 @@ type spriteSheetMetadata struct {
 // LoadSpriteSheets loads sprite sheets from a TOML file
 func LoadSpriteSheets(spriteSheetMetadataPath string) map[string]c.SpriteSheet {
 	var spriteSheetMetadata spriteSheetMetadata
-	_, err := toml.DecodeFile("assets/metadata/spritesheets/spritesheets.toml", &spriteSheetMetadata)
+	_, err := toml.DecodeFile(spriteSheetMetadataPath, &spriteSheetMetadata)
 	utils.LogError(err)
 	return spriteSheetMetadata.SpriteSheets
 }

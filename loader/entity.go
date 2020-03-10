@@ -33,16 +33,26 @@ type engineComponentListData struct {
 	MouseReactive *c.MouseReactive
 }
 
-type engineComponents struct {
-	Engine engineComponentListData
-}
-
 type entity struct {
-	Components engineComponents
+	Components engineComponentListData
 }
 
 type entityEngineMetadata struct {
 	Entities []entity `toml:"entity"`
+}
+
+// LoadEntities creates entities with components from a TOML file
+func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []interface{}) []ecs.Entity {
+	engineComponentList := LoadEngineComponents(entityMetadataPath, world)
+
+	entities := make([]ecs.Entity, len(engineComponentList))
+	for iEntity := range engineComponentList {
+		// Add components to a new entity
+		entities[iEntity] = world.Manager.NewEntity()
+		AddEntityComponents(entities[iEntity], world.Components.Engine, engineComponentList[iEntity])
+		AddEntityComponents(entities[iEntity], world.Components.Game, gameComponentList[iEntity])
+	}
+	return entities
 }
 
 // AddEntityComponents adds loaded components to an entity
@@ -68,7 +78,7 @@ func LoadEngineComponents(entityMetadataPath string, world w.World) []EngineComp
 
 	engineComponentList := make([]EngineComponentList, len(entityEngineMetadata.Entities))
 	for iEntity, entity := range entityEngineMetadata.Entities {
-		engineComponentList[iEntity] = processComponentsListData(world, entity.Components.Engine)
+		engineComponentList[iEntity] = processComponentsListData(world, entity.Components)
 	}
 	return engineComponentList
 }
