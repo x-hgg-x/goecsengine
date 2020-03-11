@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	i "github.com/x-hgg-x/goecsengine/systems/input"
+	s "github.com/x-hgg-x/goecsengine/systems/sprite"
+	u "github.com/x-hgg-x/goecsengine/systems/ui"
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
@@ -66,15 +69,27 @@ func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
 		os.Exit(0)
 	}
 
-	switch t := sm.states[len(sm.states)-1].Update(world, screen); t.TransType {
+	// Run pre-game systems
+	i.InputSystem(world)
+	u.UISystem(world)
+
+	// Run state update function with game systems
+	transition := sm.states[len(sm.states)-1].Update(world, screen)
+
+	// Run post-game systems
+	s.TransformSystem(world)
+	s.RenderSpriteSystem(world, screen)
+	u.RenderUISystem(world, screen)
+
+	switch transition.TransType {
 	case TransPop:
 		sm._Pop(world)
 	case TransPush:
-		sm._Push(world, t.NewStates)
+		sm._Push(world, transition.NewStates)
 	case TransSwitch:
-		sm._Switch(world, t.NewStates)
+		sm._Switch(world, transition.NewStates)
 	case TransReplace:
-		sm._Replace(world, t.NewStates)
+		sm._Replace(world, transition.NewStates)
 	case TransQuit:
 		sm._Quit(world)
 	}

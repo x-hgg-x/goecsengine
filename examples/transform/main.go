@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/x-hgg-x/goecsengine/loader"
-	er "github.com/x-hgg-x/goecsengine/resources"
-	es "github.com/x-hgg-x/goecsengine/states"
+	r "github.com/x-hgg-x/goecsengine/resources"
+	s "github.com/x-hgg-x/goecsengine/states"
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
@@ -17,7 +17,7 @@ const (
 
 type mainGame struct {
 	world        w.World
-	stateMachine es.StateMachine
+	stateMachine s.StateMachine
 }
 
 func (game *mainGame) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -38,7 +38,7 @@ func main() {
 	world := w.InitWorld(&Components{}, nil)
 
 	// Init screen dimensions
-	world.Resources.ScreenDimensions = &er.ScreenDimensions{Width: windowWidth, Height: windowHeight}
+	world.Resources.ScreenDimensions = &r.ScreenDimensions{Width: windowWidth, Height: windowHeight}
 
 	// Load controls
 	axes := []string{RotationAxis, DepthAxis}
@@ -59,5 +59,5 @@ func main() {
 	ebiten.SetWindowSize(windowWidth, windowHeight)
 	ebiten.SetWindowTitle("Demo")
 
-	utils.LogError(ebiten.RunGame(&mainGame{world, es.Init(&GameplayState{}, world)}))
+	utils.LogError(ebiten.RunGame(&mainGame{world, s.Init(&GameplayState{}, world)}))
 }

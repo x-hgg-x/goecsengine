@@ -22,7 +22,7 @@ type spriteTransform struct {
 // Images are drawn in ascending order of depth.
 // Images with higher depth are thus drawn above images with lower depth.
 func RenderSpriteSystem(world w.World, screen *ebiten.Image) {
-	sprites := ecs.Join(world.Components.Engine.SpriteRender, world.Components.Engine.Transform)
+	sprites := world.Manager.Join(world.Components.Engine.SpriteRender, world.Components.Engine.Transform)
 
 	// Copy query slice into a struct slice for sorting
 	iSprite := 0

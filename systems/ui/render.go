@@ -15,7 +15,7 @@ import (
 
 // RenderUISystem draws text entities
 func RenderUISystem(world w.World, screen *ebiten.Image) {
-	ecs.Join(world.Components.Engine.Text, world.Components.Engine.UITransform).Visit(ecs.Visit(func(entity ecs.Entity) {
+	world.Manager.Join(world.Components.Engine.Text, world.Components.Engine.UITransform).Visit(ecs.Visit(func(entity ecs.Entity) {
 		textData := world.Components.Engine.Text.Get(entity).(*c.Text)
 		uiTransform := world.Components.Engine.UITransform.Get(entity).(*c.UITransform)
 

@@ -10,7 +10,7 @@ import (
 // TransformSystem updates geometry matrix.
 // Geometry matrix is first recentered, then scaled and rotated, and finally translated.
 func TransformSystem(world w.World) {
-	ecs.Join(world.Components.Engine.SpriteRender, world.Components.Engine.Transform).Visit(ecs.Visit(func(entity ecs.Entity) {
+	world.Manager.Join(world.Components.Engine.SpriteRender, world.Components.Engine.Transform).Visit(ecs.Visit(func(entity ecs.Entity) {
 		sprite := world.Components.Engine.SpriteRender.Get(entity).(*c.SpriteRender)
 		transform := world.Components.Engine.Transform.Get(entity).(*c.Transform)
 

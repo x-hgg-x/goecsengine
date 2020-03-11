@@ -20,7 +20,7 @@ func DemoSystem(world w.World) {
 	gameResources.Rotation += world.Resources.InputHandler.Axes[RotationAxis] * 5 / ebiten.DefaultTPS
 	gameResources.Depth += world.Resources.InputHandler.Axes[DepthAxis] * 2 / ebiten.DefaultTPS
 
-	ecs.Join(gameComponents.Gopher, world.Components.Engine.Transform).Visit(ecs.Visit(func(entity ecs.Entity) {
+	world.Manager.Join(gameComponents.Gopher, world.Components.Engine.Transform).Visit(ecs.Visit(func(entity ecs.Entity) {
 		transform := world.Components.Engine.Transform.Get(entity).(*c.Transform)
 		transform.Rotation = gameResources.Rotation
 		transform.Depth = gameResources.Depth
@@ -42,13 +42,13 @@ func DemoSystem(world w.World) {
 
 	// Delete a gopher entity
 	if world.Resources.InputHandler.Actions[DeleteEntityAction] {
-		gophers := ecs.Join(gameComponents.Gopher, gameComponents.Sticky.Not())
-		firstGopher := ecs.Entity(gophers.Next(-1))
+		gophers := world.Manager.Join(gameComponents.Gopher, gameComponents.Sticky.Not())
+		firstGopher := ecs.Entity(*ecs.GetFirst(gophers))
 		world.Manager.DeleteEntity(firstGopher)
 	}
 
 	// Update text info
-	ecs.Join(world.Components.Engine.Text, world.Components.Engine.UITransform).Visit(ecs.Visit(func(entity ecs.Entity) {
+	world.Manager.Join(world.Components.Engine.Text, world.Components.Engine.UITransform).Visit(ecs.Visit(func(entity ecs.Entity) {
 		text := world.Components.Engine.Text.Get(entity).(*c.Text)
 		if text.ID == "rotation" {
 			text.Text = fmt.Sprintf("Gopher rotation: %.2f", gameResources.Rotation)
