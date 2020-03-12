@@ -43,8 +43,9 @@ func DemoSystem(world w.World) {
 	// Delete a gopher entity
 	if world.Resources.InputHandler.Actions[DeleteEntityAction] {
 		gophers := world.Manager.Join(gameComponents.Gopher, gameComponents.Sticky.Not())
-		firstGopher := ecs.Entity(*ecs.GetFirst(gophers))
-		world.Manager.DeleteEntity(firstGopher)
+		if firstGopher := ecs.GetFirst(gophers); firstGopher != nil {
+			world.Manager.DeleteEntity(*firstGopher)
+		}
 	}
 
 	// Update text info
