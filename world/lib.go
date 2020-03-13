@@ -16,7 +16,7 @@ type World struct {
 
 // InitWorld initializes the world
 func InitWorld(gameComponents interface{}, gameResources interface{}) World {
-	manager := &ecs.Manager{}
+	manager := ecs.NewManager()
 	components := c.InitComponents(manager, gameComponents)
 	resources := resources.InitResources(gameResources)
 
