@@ -21,7 +21,7 @@ A state machine has a stack of game states, which can be changed via transitions
 This is useful for pausing game or changing a game level for example.
 
 ### Systems
-This package contains engine systems used for displaying sprites and text and managing UI. They must be run on the update function of the current game state.
+This package contains engine systems used for displaying sprites and text and managing UI. They are run automatically on each frame.
 
 ### World
 This package defines the world, a global structure containing game data (ECS manager, components and resources).

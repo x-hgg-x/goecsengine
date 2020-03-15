@@ -15,7 +15,7 @@ once = true
 
 # Usage
 
-# Axis
+# Axes
 
 # With keyboard keys
 # [controls.axes.XXX]
@@ -40,9 +40,11 @@ once = true
 
 
 # Actions
+
 # [controls.actions.XXX]
 # combinations = [
 #     [{ key = "Control" }, { key = "Q" }],
-#     [{ key = "Escape" }]
+#     [{ key = "Escape" }],
+#     [{ controller = { id = 0, button = "GamepadButton9" } }],
 # ]
 # once = true
