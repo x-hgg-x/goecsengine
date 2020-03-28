@@ -16,5 +16,5 @@ type Resources struct {
 
 // InitResources initializes resources
 func InitResources(gameResources interface{}) *Resources {
-	return &Resources{Game: gameResources}
+	return &Resources{Controls: &Controls{}, InputHandler: &InputHandler{}, Game: gameResources}
 }

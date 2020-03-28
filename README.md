@@ -38,6 +38,6 @@ See [examples/transform/assets/start.toml](examples/transform/assets/start.toml)
 
 
 ## Examples
-A basic example is include in the [examples](examples) directory.
+Examples are included in the [examples](examples) directory.
 
 For a more complete example, see the [Arkanoid](https://github.com/x-hgg-x/arkanoid-go) game.

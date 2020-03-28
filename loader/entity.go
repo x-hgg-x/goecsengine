@@ -50,7 +50,9 @@ func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []
 		// Add components to a new entity
 		entities[iEntity] = world.Manager.NewEntity()
 		AddEntityComponents(entities[iEntity], world.Components.Engine, engineComponentList[iEntity])
-		AddEntityComponents(entities[iEntity], world.Components.Game, gameComponentList[iEntity])
+		if gameComponentList != nil {
+			AddEntityComponents(entities[iEntity], world.Components.Game, gameComponentList[iEntity])
+		}
 	}
 	return entities
 }

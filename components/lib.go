@@ -31,9 +31,11 @@ func InitComponents(manager *ecs.Manager, gameComponents interface{}) *Component
 	}
 
 	components.Game = gameComponents
-	gv := reflect.ValueOf(components.Game).Elem()
-	for iField := 0; iField < gv.NumField(); iField++ {
-		gv.Field(iField).Set(reflect.ValueOf(manager.NewComponent()))
+	if gameComponents != nil {
+		gv := reflect.ValueOf(components.Game).Elem()
+		for iField := 0; iField < gv.NumField(); iField++ {
+			gv.Field(iField).Set(reflect.ValueOf(manager.NewComponent()))
+		}
 	}
 
 	return components
