@@ -43,7 +43,7 @@ func (st *GameplayState) Update(world w.World, screen *ebiten.Image) states.Tran
 	DemoSystem(world)
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
-		return states.Transition{TransType: states.TransQuit}
+		return states.Transition{Type: states.TransQuit}
 	}
 	return states.Transition{}
 }

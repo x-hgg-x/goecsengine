@@ -33,7 +33,7 @@ const (
 
 // Transition is a state transition
 type Transition struct {
-	TransType TransType
+	Type      TransType
 	NewStates []State
 }
 
@@ -81,7 +81,7 @@ func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
 	s.RenderSpriteSystem(world, screen)
 	u.RenderUISystem(world, screen)
 
-	switch transition.TransType {
+	switch transition.Type {
 	case TransPop:
 		sm._Pop(world)
 	case TransPush:
