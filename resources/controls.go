@@ -19,7 +19,7 @@ func (k *Key) UnmarshalText(text []byte) error {
 		k.Key = key
 		return nil
 	}
-	return fmt.Errorf("unknown key string: '%s'", string(text))
+	return fmt.Errorf("unknown key: '%s'", string(text))
 }
 
 // MouseButton is a mouse button
@@ -33,7 +33,7 @@ func (b *MouseButton) UnmarshalText(text []byte) error {
 		b.MouseButton = mouseButton
 		return nil
 	}
-	return fmt.Errorf("unknown mouse button string: '%s'", string(text))
+	return fmt.Errorf("unknown mouse button: '%s'", string(text))
 }
 
 // ControllerButton is a gamepad button
@@ -50,7 +50,7 @@ func (b *ControllerButton) UnmarshalTOML(i interface{}) error {
 		b.GamepadButton = gamepadButton
 		return nil
 	}
-	return fmt.Errorf("unknown gamepad button string: '%s'", data["button"].(string))
+	return fmt.Errorf("unknown gamepad button: '%s'", data["button"].(string))
 }
 
 // Button can be a US keyboard key, a mouse button or a gamepad button
