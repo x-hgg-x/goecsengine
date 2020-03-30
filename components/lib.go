@@ -8,11 +8,12 @@ import (
 
 // EngineComponents contains references to all engine components
 type EngineComponents struct {
-	SpriteRender  *ecs.Component
-	Transform     *ecs.Component
-	Text          *ecs.Component
-	UITransform   *ecs.Component
-	MouseReactive *ecs.Component
+	SpriteRender     *ecs.Component
+	Transform        *ecs.Component
+	AnimationControl *ecs.Component
+	Text             *ecs.Component
+	UITransform      *ecs.Component
+	MouseReactive    *ecs.Component
 }
 
 // Components contains engine and game components

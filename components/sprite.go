@@ -40,6 +40,8 @@ type SpriteSheet struct {
 	Texture Texture `toml:"texture_image"`
 	// List of sprites
 	Sprites []Sprite
+	// List of animations
+	Animations map[string]Animation
 }
 
 // SpriteRender component
@@ -47,7 +49,7 @@ type SpriteRender struct {
 	// Reference sprite sheet
 	SpriteSheet *SpriteSheet
 	// Index of the sprite on the sprite sheet
-	SpriteNumber int `toml:"sprite_number"`
+	SpriteNumber int
 	// Draw options
 	Options ebiten.DrawImageOptions
 }

@@ -1,0 +1,76 @@
+[controls.actions.StepBackward]
+combinations = [[{ key = "Left" }]]
+once = true
+
+[controls.actions.StepForward]
+combinations = [[{ key = "Right" }]]
+once = true
+
+[controls.actions.HalfSpeed]
+combinations = [[{ key = "Down" }]]
+once = true
+
+[controls.actions.DoubleSpeed]
+combinations = [[{ key = "Up" }]]
+once = true
+
+[controls.actions.StartPause]
+combinations = [[{ key = "Space" }]]
+once = true
+
+[controls.actions.Restart]
+combinations = [[{ key = "1" }]]
+once = true
+
+[controls.actions.Reverse]
+combinations = [[{ key = "2" }]]
+once = true
+
+[controls.actions.SetTimeToMiddle]
+combinations = [[{ key = "3" }]]
+once = true
+
+[controls.actions.Abort]
+combinations = [[{ key = "0" }]]
+once = true
+
+[controls.actions.Reset]
+combinations = [[{ key = "Enter" }]]
+once = true
+
+
+# Usage
+
+# Axes
+
+# With keyboard keys
+# [controls.axes.XXX]
+# emulated = { pos = { key = "Right" }, neg = { key = "Left" } }
+
+# With mouse buttons
+# [controls.axes.XXX]
+# emulated = { pos = { mouse_button = "MouseButtonRight" }, neg = { mouse_button = "MouseButtonLeft" } }
+
+# With gamepad buttons
+# [controls.axes.XXX.emulated]
+# pos = { controller = { id = 0, button = "GamepadButton15" } }
+# neg = { controller = { id = 0, button = "GamepadButton14" } }
+
+# With gamepad axis
+# [controls.axes.XXX]
+# controller_axis = { id = 0, axis = 0, invert = false, dead_zone = 0.2 }
+
+# With mouse axis
+# [controls.axes.XXX]
+# mouse_axis = { axis = 0 }
+
+
+# Actions
+
+# [controls.actions.XXX]
+# combinations = [
+#     [{ key = "Control" }, { key = "Q" }],
+#     [{ key = "Escape" }],
+#     [{ controller = { id = 0, button = "GamepadButton9" } }],
+# ]
+# once = true

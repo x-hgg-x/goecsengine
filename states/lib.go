@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	a "github.com/x-hgg-x/goecsengine/systems/animation"
 	i "github.com/x-hgg-x/goecsengine/systems/input"
 	s "github.com/x-hgg-x/goecsengine/systems/sprite"
 	u "github.com/x-hgg-x/goecsengine/systems/ui"
@@ -17,7 +18,7 @@ import (
 type TransType int
 
 const (
-	// TransNone is the null transition
+	// TransNone does nothing
 	TransNone TransType = iota
 	// TransPop removes the active state and resume the next state
 	TransPop
@@ -78,6 +79,7 @@ func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
 
 	// Run post-game systems
 	s.TransformSystem(world)
+	a.AnimationSystem(world)
 	s.RenderSpriteSystem(world, screen)
 	u.RenderUISystem(world, screen)
 
