@@ -48,11 +48,11 @@ func main() {
 	world.Resources.InputHandler = &inputHandler
 
 	// Load sprite sheets
-	spriteSheets := loader.LoadSpriteSheets("assets/spritesheets.toml")
+	spriteSheets := loader.LoadSpriteSheets("metadata/spritesheets.toml")
 	world.Resources.SpriteSheets = &spriteSheets
 
 	// Load fonts
-	fonts := loader.LoadFonts("assets/fonts.toml")
+	fonts := loader.LoadFonts("metadata/fonts.toml")
 	world.Resources.Fonts = &fonts
 
 	ebiten.SetWindowResizable(true)

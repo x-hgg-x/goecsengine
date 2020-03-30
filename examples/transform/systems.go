@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"math/rand"
 
-	ecs "github.com/x-hgg-x/goecs"
 	c "github.com/x-hgg-x/goecsengine/components"
 	m "github.com/x-hgg-x/goecsengine/math"
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	"github.com/hajimehoshi/ebiten"
+	ecs "github.com/x-hgg-x/goecs"
 )
 
 // DemoSystem is a demo system
@@ -28,7 +28,7 @@ func DemoSystem(world w.World) {
 
 	// Add a gopher entity
 	if world.Resources.InputHandler.Actions[AddEntityAction] {
-		gopherEntity := LoadEntities("assets/gopher.toml", world)
+		gopherEntity := LoadEntities("metadata/gopher.toml", world)
 		for iEntity := range gopherEntity {
 			transform := world.Components.Engine.Transform.Get(gopherEntity[iEntity]).(*c.Transform)
 			transform.Rotation = gameResources.Rotation

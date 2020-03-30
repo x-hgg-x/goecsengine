@@ -26,8 +26,8 @@ func (st *GameplayState) OnStart(world w.World) {
 	rand.Seed(time.Now().UnixNano())
 
 	// Load game and text entities
-	LoadEntities("assets/start.toml", world)
-	LoadEntities("assets/text.toml", world)
+	LoadEntities("metadata/start.toml", world)
+	LoadEntities("metadata/text.toml", world)
 
 	world.Resources.Game = NewGame()
 }
