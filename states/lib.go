@@ -78,8 +78,8 @@ func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
 	transition := sm.states[len(sm.states)-1].Update(world, screen)
 
 	// Run post-game systems
-	s.TransformSystem(world)
 	a.AnimationSystem(world)
+	s.TransformSystem(world)
 	s.RenderSpriteSystem(world, screen)
 	u.RenderUISystem(world, screen)
 
