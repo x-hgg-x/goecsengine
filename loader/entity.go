@@ -222,7 +222,7 @@ func processAnimationControlData(world w.World, data engineComponentListData) *c
 	}
 
 	return &c.AnimationControl{
-		Animation:      &animation,
+		Animation:      animation,
 		End:            c.EndControl{Type: endControl},
 		Command:        c.AnimationCommand{Type: animationCommand, Time: animationControlData.Command.Time},
 		RateMultiplier: animationControlData.RateMultiplier,

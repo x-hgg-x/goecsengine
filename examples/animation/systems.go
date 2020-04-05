@@ -121,7 +121,7 @@ func DemoSystem(world w.World) {
 
 	// Update text info
 	currentBat := 0
-	aborted := ecs.GetFirst(world.Manager.Join(world.Components.Engine.AnimationControl)) == nil
+	aborted := world.Manager.Join(world.Components.Engine.AnimationControl).Empty()
 	world.Manager.Join(world.Components.Engine.Text, world.Components.Engine.UITransform).Visit(ecs.Visit(func(entity ecs.Entity) {
 		text := world.Components.Engine.Text.Get(entity).(*c.Text)
 		if text.ID == "last_command" && lastAction != "" {

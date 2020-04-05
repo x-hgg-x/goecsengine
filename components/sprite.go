@@ -41,7 +41,7 @@ type SpriteSheet struct {
 	// List of sprites
 	Sprites []Sprite
 	// List of animations
-	Animations map[string]Animation
+	Animations map[string]*Animation
 }
 
 // SpriteRender component
