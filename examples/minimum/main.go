@@ -34,7 +34,7 @@ func (game *mainGame) Update(screen *ebiten.Image) error {
 }
 
 func main() {
-	world := w.InitWorld(nil, nil)
+	world := w.InitWorld(nil)
 
 	// Init screen dimensions
 	world.Resources.ScreenDimensions = &r.ScreenDimensions{Width: windowWidth, Height: windowHeight}

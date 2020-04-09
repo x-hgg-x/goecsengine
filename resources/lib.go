@@ -11,10 +11,11 @@ type Resources struct {
 	InputHandler     *InputHandler
 	SpriteSheets     *map[string]components.SpriteSheet
 	Fonts            *map[string]Font
+	Prefabs          interface{}
 	Game             interface{}
 }
 
 // InitResources initializes resources
-func InitResources(gameResources interface{}) *Resources {
-	return &Resources{Controls: &Controls{}, InputHandler: &InputHandler{}, Game: gameResources}
+func InitResources() *Resources {
+	return &Resources{Controls: &Controls{}, InputHandler: &InputHandler{}}
 }

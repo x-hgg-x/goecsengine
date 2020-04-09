@@ -43,21 +43,30 @@ type entityEngineMetadata struct {
 	Entities []entity `toml:"entity"`
 }
 
-// LoadEntities creates entities with components from a TOML file
-func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []interface{}) []ecs.Entity {
-	engineComponentList := LoadEngineComponents(entityMetadataPath, world)
-	return AddEntities(world, engineComponentList, gameComponentList)
+// EntityComponentList is a list of preloaded entities with components
+type EntityComponentList struct {
+	Engine []EngineComponentList
+	Game   []interface{}
 }
 
-// AddEntities add entities with engine and game components
-func AddEntities(world w.World, engineComponentList []EngineComponentList, gameComponentList []interface{}) []ecs.Entity {
-	entities := make([]ecs.Entity, len(engineComponentList))
-	for iEntity := range engineComponentList {
+// LoadEntities creates entities with components from a TOML file
+func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []interface{}) []ecs.Entity {
+	entityComponentList := EntityComponentList{
+		Engine: LoadEngineComponents(entityMetadataPath, world),
+		Game:   gameComponentList,
+	}
+	return AddEntities(world, entityComponentList)
+}
+
+// AddEntities adds entities with engine and game components
+func AddEntities(world w.World, entityComponentList EntityComponentList) []ecs.Entity {
+	entities := make([]ecs.Entity, len(entityComponentList.Engine))
+	for iEntity := range entityComponentList.Engine {
 		// Add components to a new entity
 		entities[iEntity] = world.Manager.NewEntity()
-		AddEntityComponents(entities[iEntity], world.Components.Engine, engineComponentList[iEntity])
-		if gameComponentList != nil {
-			AddEntityComponents(entities[iEntity], world.Components.Game, gameComponentList[iEntity])
+		AddEntityComponents(entities[iEntity], world.Components.Engine, entityComponentList.Engine[iEntity])
+		if entityComponentList.Game != nil {
+			AddEntityComponents(entities[iEntity], world.Components.Game, entityComponentList.Game[iEntity])
 		}
 	}
 	return entities
@@ -69,10 +78,12 @@ func AddEntityComponents(entity ecs.Entity, ecsComponentList interface{}, compon
 	cv := reflect.ValueOf(components)
 	for iField := 0; iField < cv.NumField(); iField++ {
 		if !cv.Field(iField).IsNil() {
-			component := cv.Field(iField)
-			componentName := component.Elem().Type().Name()
-			ecsComponent := ecv.FieldByName(componentName).Interface().(*ecs.Component)
-			entity.AddComponent(ecsComponent, component.Interface())
+			component := cv.Field(iField).Elem()
+			value := reflect.New(reflect.TypeOf(component.Interface()))
+			value.Elem().Set(component)
+
+			ecsComponent := ecv.FieldByName(component.Type().Name()).Interface().(*ecs.Component)
+			entity.AddComponent(ecsComponent, value.Interface())
 		}
 	}
 	return entity
