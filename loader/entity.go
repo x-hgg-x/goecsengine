@@ -46,7 +46,11 @@ type entityEngineMetadata struct {
 // LoadEntities creates entities with components from a TOML file
 func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []interface{}) []ecs.Entity {
 	engineComponentList := LoadEngineComponents(entityMetadataPath, world)
+	return AddEntities(world, engineComponentList, gameComponentList)
+}
 
+// AddEntities add entities with engine and game components
+func AddEntities(world w.World, engineComponentList []EngineComponentList, gameComponentList []interface{}) []ecs.Entity {
 	entities := make([]ecs.Entity, len(engineComponentList))
 	for iEntity := range engineComponentList {
 		// Add components to a new entity
