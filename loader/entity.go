@@ -160,7 +160,7 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 	return &c.SpriteRender{
 		SpriteSheet: &c.SpriteSheet{
 			Texture: c.Texture{Image: textureImage},
-			Sprites: []c.Sprite{c.Sprite{X: 0, Y: 0, Width: spriteRenderData.Fill.Width, Height: spriteRenderData.Fill.Height}},
+			Sprites: []c.Sprite{{X: 0, Y: 0, Width: spriteRenderData.Fill.Width, Height: spriteRenderData.Fill.Height}},
 		},
 		SpriteNumber: 0,
 	}

@@ -2,6 +2,8 @@ package resources
 
 import (
 	"github.com/x-hgg-x/goecsengine/components"
+
+	"github.com/hajimehoshi/ebiten/audio"
 )
 
 // Resources contains references to data not related to any entity
@@ -11,6 +13,8 @@ type Resources struct {
 	InputHandler     *InputHandler
 	SpriteSheets     *map[string]components.SpriteSheet
 	Fonts            *map[string]Font
+	AudioContext     *audio.Context
+	AudioPlayers     *map[string]*audio.Player
 	Prefabs          interface{}
 	Game             interface{}
 }
