@@ -40,4 +40,4 @@ See [examples/transform/assets/start.toml](examples/transform/assets/start.toml)
 ## Examples
 Examples are included in the [examples](examples) directory.
 
-For a more complete example, see the [Arkanoid](https://github.com/x-hgg-x/arkanoid-go) game.
+For a more complete example, see the [Arkanoid](https://github.com/x-hgg-x/arkanoid-go) game or the [Space invaders](https://github.com/x-hgg-x/space-invaders-go) game.
