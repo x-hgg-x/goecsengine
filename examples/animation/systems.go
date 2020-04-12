@@ -7,7 +7,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/loader"
 	w "github.com/x-hgg-x/goecsengine/world"
 
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
 // DemoSystem is a demo system

@@ -12,7 +12,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 	"golang.org/x/image/font"
 )
 
@@ -82,7 +82,7 @@ func AddEntityComponents(entity ecs.Entity, ecsComponentList interface{}, compon
 			value := reflect.New(reflect.TypeOf(component.Interface()))
 			value.Elem().Set(component)
 
-			ecsComponent := ecv.FieldByName(component.Type().Name()).Interface().(*ecs.Component)
+			ecsComponent := ecv.FieldByName(component.Type().Name()).Interface().(ecs.DataComponent)
 			entity.AddComponent(ecsComponent, value.Interface())
 		}
 	}

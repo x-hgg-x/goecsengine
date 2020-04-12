@@ -6,7 +6,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
 // UISystem sets mouse reactive components

@@ -9,7 +9,7 @@ import (
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	"github.com/hajimehoshi/ebiten"
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
 // DemoSystem is a demo system

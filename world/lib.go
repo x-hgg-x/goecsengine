@@ -4,7 +4,7 @@ import (
 	c "github.com/x-hgg-x/goecsengine/components"
 	"github.com/x-hgg-x/goecsengine/resources"
 
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
 // World is the main ECS structure

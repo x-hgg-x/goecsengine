@@ -6,7 +6,7 @@ import (
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	"github.com/BurntSushi/toml"
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
 type gameComponentList struct {

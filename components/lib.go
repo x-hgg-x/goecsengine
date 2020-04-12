@@ -3,17 +3,17 @@ package components
 import (
 	"reflect"
 
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
 // EngineComponents contains references to all engine components
 type EngineComponents struct {
-	SpriteRender     *ecs.Component
-	Transform        *ecs.Component
-	AnimationControl *ecs.Component
-	Text             *ecs.Component
-	UITransform      *ecs.Component
-	MouseReactive    *ecs.Component
+	SpriteRender     *ecs.SliceComponent
+	Transform        *ecs.SliceComponent
+	AnimationControl *ecs.SliceComponent
+	Text             *ecs.SliceComponent
+	UITransform      *ecs.SliceComponent
+	MouseReactive    *ecs.SliceComponent
 }
 
 // Components contains engine and game components
@@ -24,20 +24,27 @@ type Components struct {
 
 // InitComponents initializes components
 func InitComponents(manager *ecs.Manager, gameComponents interface{}) *Components {
-	components := &Components{Engine: &EngineComponents{}}
+	components := &Components{Engine: &EngineComponents{}, Game: gameComponents}
+	initFields(manager, components.Engine)
+	initFields(manager, components.Game)
+	return components
+}
 
-	ev := reflect.ValueOf(components.Engine).Elem()
-	for iField := 0; iField < ev.NumField(); iField++ {
-		ev.Field(iField).Set(reflect.ValueOf(manager.NewComponent()))
-	}
-
-	components.Game = gameComponents
-	if gameComponents != nil {
-		gv := reflect.ValueOf(components.Game).Elem()
-		for iField := 0; iField < gv.NumField(); iField++ {
-			gv.Field(iField).Set(reflect.ValueOf(manager.NewComponent()))
+func initFields(manager *ecs.Manager, components interface{}) {
+	if components != nil {
+		v := reflect.ValueOf(components).Elem()
+		for iField := 0; iField < v.NumField(); iField++ {
+			component := v.Field(iField)
+			switch component.Interface().(type) {
+			case *ecs.NullComponent:
+				component.Set(reflect.ValueOf(manager.NewNullComponent()))
+			case *ecs.SliceComponent:
+				component.Set(reflect.ValueOf(manager.NewSliceComponent()))
+			case *ecs.DenseSliceComponent:
+				component.Set(reflect.ValueOf(manager.NewDenseSliceComponent()))
+			case *ecs.MapComponent:
+				component.Set(reflect.ValueOf(manager.NewMapComponent()))
+			}
 		}
 	}
-
-	return components
 }

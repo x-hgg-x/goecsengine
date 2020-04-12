@@ -10,12 +10,12 @@ import (
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	"github.com/hajimehoshi/ebiten"
-	ecs "github.com/x-hgg-x/goecs"
+	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
-type spriteTransform struct {
-	sprite    *c.SpriteRender
-	transform *c.Transform
+type spriteDepth struct {
+	sprite *c.SpriteRender
+	depth  float64
 }
 
 // RenderSpriteSystem draws images.
@@ -26,22 +26,22 @@ func RenderSpriteSystem(world w.World, screen *ebiten.Image) {
 
 	// Copy query slice into a struct slice for sorting
 	iSprite := 0
-	spritesTransforms := make([]spriteTransform, sprites.Size())
+	spritesDepths := make([]spriteDepth, sprites.Size())
 	sprites.Visit(ecs.Visit(func(entity ecs.Entity) {
-		spritesTransforms[iSprite] = spriteTransform{
-			sprite:    world.Components.Engine.SpriteRender.Get(entity).(*c.SpriteRender),
-			transform: world.Components.Engine.Transform.Get(entity).(*c.Transform),
+		spritesDepths[iSprite] = spriteDepth{
+			sprite: world.Components.Engine.SpriteRender.Get(entity).(*c.SpriteRender),
+			depth:  world.Components.Engine.Transform.Get(entity).(*c.Transform).Depth,
 		}
 		iSprite++
 	}))
 
 	// Sort by increasing values of depth
-	sort.Slice(spritesTransforms, func(i, j int) bool {
-		return spritesTransforms[i].transform.Depth < spritesTransforms[j].transform.Depth
+	sort.Slice(spritesDepths, func(i, j int) bool {
+		return spritesDepths[i].depth < spritesDepths[j].depth
 	})
 
 	// Sprites with higher values of depth are drawn later so they are on top
-	for _, st := range spritesTransforms {
+	for _, st := range spritesDepths {
 		drawImageWithWrap(screen, st.sprite)
 	}
 }
