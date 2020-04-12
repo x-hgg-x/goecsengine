@@ -95,8 +95,6 @@ func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
 	case TransQuit:
 		sm._Quit(world)
 	}
-
-	world.Manager.Maintain(1000, 0.5)
 }
 
 // Remove the active state and resume the next state
