@@ -5,7 +5,7 @@ A simple game engine using Ebiten with ECS.
 ## Description
 
 ### Components
-This package contains engine components used for displaying sprites and text and managing UI.
+This package contains engine components used for displaying sprites and text and managing animations and UI.
 
 ### Loader
 This package contains functions for loading entities with components from a TOML file.
@@ -21,7 +21,7 @@ A state machine has a stack of game states, which can be changed via transitions
 This is useful for pausing game or changing a game level for example.
 
 ### Systems
-This package contains engine systems used for displaying sprites and text and managing UI. They are run automatically on each frame.
+This package contains engine systems used for displaying sprites and text and managing animations and UI. They are run automatically on each frame.
 
 ### World
 This package defines the world, a global structure containing game data (ECS manager, components and resources).
@@ -34,7 +34,7 @@ The engine uses [a TOML parser](https://github.com/BurntSushi/toml) for reading 
 
 Deserialization is relatively straightforward, with TOML fields corresponding directly to components fields, with the exception of Text and SpriteRender components which need to load data dynamically.
 
-See [examples/transform/assets/start.toml](examples/transform/assets/start.toml) or [loader/entity.go](loader/entity.go) for more details.
+See [examples/transform/metadata/start.toml](examples/transform/metadata/start.toml) or [loader/entity.go](loader/entity.go) for more details.
 
 
 ## Examples
