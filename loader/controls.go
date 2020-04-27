@@ -7,7 +7,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/resources"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/BurntSushi/toml"
+	"github.com/x-hgg-x/go-toml"
 )
 
 type controlsConfig struct {
@@ -17,8 +17,9 @@ type controlsConfig struct {
 // LoadControls loads controls from a TOML file
 func LoadControls(controlsConfigPath string, axes []string, actions []string) (resources.Controls, resources.InputHandler) {
 	var controlsConfig controlsConfig
-	_, err := toml.DecodeFile(controlsConfigPath, &controlsConfig)
+	tree, err := toml.LoadFile(controlsConfigPath)
 	utils.LogError(err)
+	utils.LogError(tree.Unmarshal(&controlsConfig))
 
 	var inputHandler resources.InputHandler
 	inputHandler.Axes = make(map[string]float64)

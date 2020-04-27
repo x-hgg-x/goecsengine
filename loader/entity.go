@@ -9,9 +9,9 @@ import (
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
-	"github.com/BurntSushi/toml"
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/x-hgg-x/go-toml"
 	ecs "github.com/x-hgg-x/goecs/v2"
 	"golang.org/x/image/font"
 )
@@ -92,8 +92,9 @@ func AddEntityComponents(entity ecs.Entity, ecsComponentList interface{}, compon
 // LoadEngineComponents loads engine components from a TOML file
 func LoadEngineComponents(entityMetadataPath string, world w.World) []EngineComponentList {
 	var entityEngineMetadata entityEngineMetadata
-	_, err := toml.DecodeFile(entityMetadataPath, &entityEngineMetadata)
+	tree, err := toml.LoadFile(entityMetadataPath)
 	utils.LogError(err)
+	utils.LogError(tree.Unmarshal(&entityEngineMetadata))
 
 	engineComponentList := make([]EngineComponentList, len(entityEngineMetadata.Entities))
 	for iEntity, entity := range entityEngineMetadata.Entities {
@@ -116,7 +117,7 @@ func processComponentsListData(world w.World, data engineComponentListData) Engi
 type fillData struct {
 	Width  int
 	Height int
-	Color  [4]uint8
+	Color  []uint8
 }
 
 type spriteRenderData struct {
@@ -149,6 +150,15 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 	// Sprite is a colored rectangle
 	textureImage, err := ebiten.NewImage(spriteRenderData.Fill.Width, spriteRenderData.Fill.Height, ebiten.FilterNearest)
 	utils.LogError(err)
+
+	// Check color
+	if len(spriteRenderData.Fill.Color) == 0 {
+		utils.LogError(fmt.Errorf("color must be provided"))
+	}
+
+	if len(spriteRenderData.Fill.Color) != 4 {
+		utils.LogError(fmt.Errorf("color must be an array with 4 elements"))
+	}
 
 	textureImage.Fill(color.RGBA{
 		R: spriteRenderData.Fill.Color[0],
@@ -269,7 +279,7 @@ type textData struct {
 	ID       string
 	Text     string
 	FontFace fontFaceData `toml:"font_face"`
-	Color    [4]uint8
+	Color    []uint8
 }
 
 func processTextData(world w.World, textData *textData) *c.Text {
@@ -287,6 +297,15 @@ func processTextData(world w.World, textData *textData) *c.Text {
 	hinting, ok := hintingMap[textData.FontFace.Options.Hinting]
 	if !ok {
 		utils.LogError(fmt.Errorf("unknown hinting option: '%s'", textData.FontFace.Options.Hinting))
+	}
+
+	// Check color
+	if len(textData.Color) == 0 {
+		utils.LogError(fmt.Errorf("color must be provided"))
+	}
+
+	if len(textData.Color) != 4 {
+		utils.LogError(fmt.Errorf("color must be an array with 4 elements"))
 	}
 
 	options := &truetype.Options{

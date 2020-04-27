@@ -30,7 +30,7 @@ It is passed as a parameter in all system and state functions.
 
 
 ## Deserialization from a TOML file
-The engine uses [a TOML parser](https://github.com/BurntSushi/toml) for reading TOML files. It uses the [TOML v0.4.0](https://github.com/toml-lang/toml/blob/master/versions/en/toml-v0.4.0.md) specification.
+The engine uses [a TOML parser](https://github.com/x-hgg-x/go-toml) for reading TOML files. It uses the [TOML v0.5.0](https://github.com/toml-lang/toml/blob/master/versions/en/toml-v0.5.0.md) specification.
 
 Deserialization is relatively straightforward, with TOML fields corresponding directly to components fields, with the exception of Text and SpriteRender components which need to load data dynamically.
 
@@ -40,4 +40,7 @@ See [examples/transform/metadata/start.toml](examples/transform/metadata/start.t
 ## Examples
 Examples are included in the [examples](examples) directory.
 
-For a more complete example, see the [Arkanoid](https://github.com/x-hgg-x/arkanoid-go) game or the [Space invaders](https://github.com/x-hgg-x/space-invaders-go) game.
+List of games using the engine:
+* [Arkanoid](https://github.com/x-hgg-x/arkanoid-go)
+* [Space Invaders](https://github.com/x-hgg-x/space-invaders-go)
+* [Sokoban](https://github.com/x-hgg-x/sokoban-go)

@@ -4,7 +4,7 @@ import (
 	c "github.com/x-hgg-x/goecsengine/components"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/BurntSushi/toml"
+	"github.com/x-hgg-x/go-toml"
 )
 
 type spriteSheetMetadata struct {
@@ -14,7 +14,8 @@ type spriteSheetMetadata struct {
 // LoadSpriteSheets loads sprite sheets from a TOML file
 func LoadSpriteSheets(spriteSheetMetadataPath string) map[string]c.SpriteSheet {
 	var spriteSheetMetadata spriteSheetMetadata
-	_, err := toml.DecodeFile(spriteSheetMetadataPath, &spriteSheetMetadata)
+	tree, err := toml.LoadFile(spriteSheetMetadataPath)
 	utils.LogError(err)
+	utils.LogError(tree.Unmarshal(&spriteSheetMetadata))
 	return spriteSheetMetadata.SpriteSheets
 }
