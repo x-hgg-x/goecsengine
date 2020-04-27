@@ -58,7 +58,11 @@ func getAxisValue(world w.World, axis resources.Axis) float64 {
 		case 1:
 			axisValue = (screenHeight - float64(y)) / screenHeight
 		}
+		axisValue = 2*axisValue - 1
 	}
+
+	// Axis value must be between -1 and 1
+	axisValue = math.Min(math.Max(axisValue, -1), 1)
 	return axisValue
 }
 
