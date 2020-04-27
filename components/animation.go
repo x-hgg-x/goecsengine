@@ -1,6 +1,10 @@
 package components
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/x-hgg-x/go-toml"
+)
 
 // Animation structure
 type Animation struct {
@@ -12,32 +16,27 @@ type Animation struct {
 
 // UnmarshalTOML fills structure fields from TOML data
 func (a *Animation) UnmarshalTOML(i interface{}) error {
-	data := i.(map[string]interface{})
-	times := data["time"].([]interface{})
-	spriteNumbers := data["sprite_number"].([]interface{})
-
-	a.SpriteNumber = make([]int, len(spriteNumbers))
-	for iSprite := range spriteNumbers {
-		a.SpriteNumber[iSprite] = int(spriteNumbers[iSprite].(int64))
+	// Unmarshal from tree
+	if tree, err := toml.TreeFromMap(i.(map[string]interface{})); err != nil {
+		return err
+	} else if err := tree.Unmarshal(a); err != nil {
+		return err
 	}
 
 	// Check animation length
-	if len(spriteNumbers) < 1 || len(times) != len(spriteNumbers)+1 {
-		return fmt.Errorf("incorrect animation length: len(Time) = %v and len(SpriteNumber) = %v", len(times), len(spriteNumbers))
+	if len(a.SpriteNumber) < 1 || len(a.Time) != len(a.SpriteNumber)+1 {
+		return fmt.Errorf("incorrect animation length: len(Time) = %v and len(SpriteNumber) = %v", len(a.Time), len(a.SpriteNumber))
 	}
 
 	// Check time values
-	a.Time = make([]float64, len(times))
-	if times[0].(float64) != 0 {
+	if a.Time[0] != 0 {
 		return fmt.Errorf("first time value must be 0")
 	}
-	for iTime := 1; iTime < len(times); iTime++ {
-		if times[iTime].(float64) <= times[iTime-1].(float64) {
+	for iTime := 1; iTime < len(a.Time); iTime++ {
+		if a.Time[iTime] <= a.Time[iTime-1] {
 			return fmt.Errorf("time values must be in strictly increasing order")
 		}
-		a.Time[iTime] = times[iTime].(float64)
 	}
-
 	return nil
 }
 
