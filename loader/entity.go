@@ -26,23 +26,6 @@ type EngineComponentList struct {
 	MouseReactive    *c.MouseReactive
 }
 
-type engineComponentListData struct {
-	SpriteRender     *spriteRenderData
-	Transform        *c.Transform
-	AnimationControl *animationControlData
-	Text             *textData
-	UITransform      *c.UITransform
-	MouseReactive    *c.MouseReactive
-}
-
-type entity struct {
-	Components engineComponentListData
-}
-
-type entityEngineMetadata struct {
-	Entities []entity `toml:"entity"`
-}
-
 // EntityComponentList is a list of preloaded entities with components
 type EntityComponentList struct {
 	Engine []EngineComponentList
@@ -60,12 +43,19 @@ func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []
 
 // AddEntities adds entities with engine and game components
 func AddEntities(world w.World, entityComponentList EntityComponentList) []ecs.Entity {
+	// Create new entities and add engine components
 	entities := make([]ecs.Entity, len(entityComponentList.Engine))
 	for iEntity := range entityComponentList.Engine {
-		// Add components to a new entity
 		entities[iEntity] = world.Manager.NewEntity()
 		AddEntityComponents(entities[iEntity], world.Components.Engine, entityComponentList.Engine[iEntity])
-		if entityComponentList.Game != nil {
+	}
+
+	// Add game components
+	if entityComponentList.Game != nil {
+		if len(entityComponentList.Game) != len(entityComponentList.Engine) {
+			utils.LogError(fmt.Errorf("incorrect size for game component list"))
+		}
+		for iEntity := range entities {
 			AddEntityComponents(entities[iEntity], world.Components.Game, entityComponentList.Game[iEntity])
 		}
 	}
@@ -87,6 +77,23 @@ func AddEntityComponents(entity ecs.Entity, ecsComponentList interface{}, compon
 		}
 	}
 	return entity
+}
+
+type engineComponentListData struct {
+	SpriteRender     *spriteRenderData
+	Transform        *c.Transform
+	AnimationControl *animationControlData
+	Text             *textData
+	UITransform      *c.UITransform
+	MouseReactive    *c.MouseReactive
+}
+
+type entity struct {
+	Components engineComponentListData
+}
+
+type entityEngineMetadata struct {
+	Entities []entity `toml:"entity"`
 }
 
 // LoadEngineComponents loads engine components from a TOML file
@@ -113,6 +120,10 @@ func processComponentsListData(world w.World, data engineComponentListData) Engi
 		MouseReactive:    data.MouseReactive,
 	}
 }
+
+//
+// SpriteRender
+//
 
 type fillData struct {
 	Width  int
@@ -153,7 +164,7 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 
 	// Check color
 	if len(spriteRenderData.Fill.Color) == 0 {
-		utils.LogError(fmt.Errorf("color must be provided"))
+		spriteRenderData.Fill.Color = []uint8{0, 0, 0, 0}
 	}
 
 	if len(spriteRenderData.Fill.Color) != 4 {
@@ -175,6 +186,10 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 		SpriteNumber: 0,
 	}
 }
+
+//
+// AnimationControl
+//
 
 var endControlMap = map[string]c.EndControlType{
 	"":       c.EndControlNormal,
@@ -200,7 +215,7 @@ var animationCommandMap = map[string]c.AnimationCommandType{
 }
 
 type animationCommandData struct {
-	Type string
+	Type string `default:"Start"`
 	Time float64
 }
 
@@ -209,7 +224,7 @@ type animationControlData struct {
 	AnimationName   string `toml:"animation_name"`
 	End             endControlData
 	Command         animationCommandData
-	RateMultiplier  float64 `toml:"rate_multiplier"`
+	RateMultiplier  float64 `toml:"rate_multiplier" default:"1.0"`
 }
 
 func processAnimationControlData(world w.World, data engineComponentListData) *c.AnimationControl {
@@ -254,13 +269,17 @@ func processAnimationControlData(world w.World, data engineComponentListData) *c
 	}
 }
 
+//
+// Text
+//
+
 type fontFaceOptions struct {
 	Size              float64
 	DPI               float64
-	Hinting           string
-	GlyphCacheEntries int `toml:"glyph_cache_entries"`
-	SubPixelsX        int `toml:"sub_pixels_x"`
-	SubPixelsY        int `toml:"sub_pixels_y"`
+	Hinting           string `default:"Full"`
+	GlyphCacheEntries int    `toml:"glyph_cache_entries"`
+	SubPixelsX        int    `toml:"sub_pixels_x"`
+	SubPixelsY        int    `toml:"sub_pixels_y"`
 }
 
 var hintingMap = map[string]font.Hinting{
@@ -301,7 +320,7 @@ func processTextData(world w.World, textData *textData) *c.Text {
 
 	// Check color
 	if len(textData.Color) == 0 {
-		utils.LogError(fmt.Errorf("color must be provided"))
+		textData.Color = []uint8{0, 0, 0, 0}
 	}
 
 	if len(textData.Color) != 4 {

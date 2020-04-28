@@ -22,8 +22,8 @@ github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORN
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
 github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4/go.mod h1:4OwLy04Bl9Ef3GJJCoec+30X3LQs/0/m4HFRt/2LUSA=
-github.com/x-hgg-x/go-toml v1.7.1-0.20200426172455-2202e9f71ec8 h1:jWHTCoBKzq1f4Ocmhegeab1a8HlMQDVrk94kEWeMa2o=
-github.com/x-hgg-x/go-toml v1.7.1-0.20200426172455-2202e9f71ec8/go.mod h1:XS8146JImxfi/Wd0wPvnVzJ5IFpM+mCYT06Rox4MzzQ=
+github.com/x-hgg-x/go-toml v1.7.1-0.20200428203004-c561df1f7ce2 h1:cIf15KP2q9AolAYNNsoVcgGFHTqMgDo+6ZMpo9l+OLw=
+github.com/x-hgg-x/go-toml v1.7.1-0.20200428203004-c561df1f7ce2/go.mod h1:XS8146JImxfi/Wd0wPvnVzJ5IFpM+mCYT06Rox4MzzQ=
 github.com/x-hgg-x/goecs/v2 v2.0.3 h1:5+Je92XmY9lDg/RDXZU03YF4h3hGufCnv+n/JGyBlOk=
 github.com/x-hgg-x/goecs/v2 v2.0.3/go.mod h1:j7lDz3fNR2Gkr5YCs7Dn9nLFgqVAWIMszdDt12HtZgo=
 github.com/yourbasic/bit v0.0.0-20180313074424-45a4409f4082/go.mod h1:SC4yTthuwUIud4hT6D7kJGIYmhnskaQnm3VD2VYM8EM=

@@ -16,27 +16,33 @@ type Animation struct {
 
 // UnmarshalTOML fills structure fields from TOML data
 func (a *Animation) UnmarshalTOML(i interface{}) error {
+	// Create an alias to avoid infinite recursion when unmarshaling
+	type animation Animation
+	var data animation
+
 	// Unmarshal from tree
 	if tree, err := toml.TreeFromMap(i.(map[string]interface{})); err != nil {
 		return err
-	} else if err := tree.Unmarshal(a); err != nil {
+	} else if err := tree.Unmarshal(&data); err != nil {
 		return err
 	}
 
 	// Check animation length
-	if len(a.SpriteNumber) < 1 || len(a.Time) != len(a.SpriteNumber)+1 {
-		return fmt.Errorf("incorrect animation length: len(Time) = %v and len(SpriteNumber) = %v", len(a.Time), len(a.SpriteNumber))
+	if len(data.SpriteNumber) < 1 || len(data.Time) != len(data.SpriteNumber)+1 {
+		return fmt.Errorf("incorrect animation length: len(Time) = %v and len(SpriteNumber) = %v", len(data.Time), len(data.SpriteNumber))
 	}
 
 	// Check time values
-	if a.Time[0] != 0 {
+	if data.Time[0] != 0 {
 		return fmt.Errorf("first time value must be 0")
 	}
-	for iTime := 1; iTime < len(a.Time); iTime++ {
-		if a.Time[iTime] <= a.Time[iTime-1] {
+	for iTime := 1; iTime < len(data.Time); iTime++ {
+		if data.Time[iTime] <= data.Time[iTime-1] {
 			return fmt.Errorf("time values must be in strictly increasing order")
 		}
 	}
+
+	*a = Animation(data)
 	return nil
 }
 

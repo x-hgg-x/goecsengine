@@ -5,4 +5,3 @@
 
     [entity.components.Transform]
     translation = { x = 300.0, y = 300.0 }
-    depth = 0.0

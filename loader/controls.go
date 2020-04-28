@@ -2,7 +2,6 @@ package loader
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/x-hgg-x/goecsengine/resources"
 	"github.com/x-hgg-x/goecsengine/utils"
@@ -41,45 +40,5 @@ func LoadControls(controlsConfigPath string, axes []string, actions []string) (r
 		inputHandler.Actions[action] = false
 	}
 
-	// Set "Type" field for axes
-	for k, v := range controlsConfig.Controls.Axes {
-		controlsConfig.Controls.Axes[k] = setTypeFields(reflect.ValueOf(&v)).Interface().(resources.Axis)
-	}
-
-	// Set "Type" field for actions
-	for k, v := range controlsConfig.Controls.Actions {
-		for i := range v.Combinations {
-			for j := range v.Combinations[i] {
-				setTypeFields(reflect.ValueOf(&v.Combinations[i][j]))
-			}
-		}
-		controlsConfig.Controls.Actions[k] = v
-	}
-
 	return controlsConfig.Controls, inputHandler
-}
-
-// Set "Type" field to the name of the non null field (only one non null field is allowed)
-func setTypeFields(v reflect.Value) reflect.Value {
-	v = reflect.Indirect(v)
-	for iField := 0; iField < v.NumField(); iField++ {
-		if v.Type().Field(iField).Name == "Type" {
-			for iSubField := 0; iSubField < v.NumField(); iSubField++ {
-				subField := v.Field(iSubField)
-				if subField.Kind() == reflect.Ptr && !subField.IsNil() {
-					typeName := subField.Elem().Type().Name()
-					if v.FieldByName("Type").String() != "" {
-						utils.LogError(fmt.Errorf("duplicate fields found: %s, %s", v.FieldByName("Type").String(), typeName))
-					}
-					v.FieldByName("Type").SetString(typeName)
-				}
-			}
-		}
-
-		field := reflect.Indirect(v.Field(iField))
-		if field.Kind() == reflect.Struct {
-			setTypeFields(field)
-		}
-	}
-	return v
 }

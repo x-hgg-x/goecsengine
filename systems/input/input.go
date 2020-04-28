@@ -24,17 +24,17 @@ func InputSystem(world w.World) {
 func getAxisValue(world w.World, axis resources.Axis) float64 {
 	axisValue := 0.0
 
-	switch axis.Type {
-	case "Emulated":
-		if isPressed(axis.Emulated.Pos) {
+	switch value := axis.Value.(type) {
+	case *resources.Emulated:
+		if isPressed(value.Pos) {
 			axisValue++
 		}
-		if isPressed(axis.Emulated.Neg) {
+		if isPressed(value.Neg) {
 			axisValue--
 		}
-	case "ControllerAxis":
-		deadZone := math.Abs(axis.ControllerAxis.DeadZone)
-		axisValue = ebiten.GamepadAxis(axis.ControllerAxis.ID, axis.ControllerAxis.Axis)
+	case *resources.ControllerAxis:
+		deadZone := math.Abs(value.DeadZone)
+		axisValue = ebiten.GamepadAxis(value.ID, value.Axis)
 
 		if axisValue < -deadZone {
 			axisValue = (axisValue + deadZone) / (1.0 - deadZone)
@@ -44,15 +44,15 @@ func getAxisValue(world w.World, axis resources.Axis) float64 {
 			axisValue = 0
 		}
 
-		if axis.ControllerAxis.Invert {
+		if value.Invert {
 			axisValue *= -1
 		}
-	case "MouseAxis":
+	case *resources.MouseAxis:
 		screenWidth := float64(world.Resources.ScreenDimensions.Width)
 		screenHeight := float64(world.Resources.ScreenDimensions.Height)
 
 		x, y := ebiten.CursorPosition()
-		switch axis.MouseAxis.Axis {
+		switch value.Axis {
 		case 0:
 			axisValue = float64(x) / screenWidth
 		case 1:
@@ -87,25 +87,25 @@ func isActionDone(action resources.Action) bool {
 }
 
 func isPressed(b resources.Button) bool {
-	switch b.Type {
-	case "Key":
-		return ebiten.IsKeyPressed(b.Key.Key)
-	case "MouseButton":
-		return ebiten.IsMouseButtonPressed(b.MouseButton.MouseButton)
-	case "ControllerButton":
-		return ebiten.IsGamepadButtonPressed(b.ControllerButton.ID, b.ControllerButton.GamepadButton)
+	switch value := b.Value.(type) {
+	case *resources.Key:
+		return ebiten.IsKeyPressed(value.Key)
+	case *resources.MouseButton:
+		return ebiten.IsMouseButtonPressed(value.MouseButton)
+	case *resources.ControllerButton:
+		return ebiten.IsGamepadButtonPressed(value.ID, value.GamepadButton)
 	}
 	return false
 }
 
 func isJustPressed(b resources.Button) bool {
-	switch b.Type {
-	case "Key":
-		return inpututil.IsKeyJustPressed(b.Key.Key)
-	case "MouseButton":
-		return inpututil.IsMouseButtonJustPressed(b.MouseButton.MouseButton)
-	case "ControllerButton":
-		return inpututil.IsGamepadButtonJustPressed(b.ControllerButton.ID, b.ControllerButton.GamepadButton)
+	switch value := b.Value.(type) {
+	case *resources.Key:
+		return inpututil.IsKeyJustPressed(value.Key)
+	case *resources.MouseButton:
+		return inpututil.IsMouseButtonJustPressed(value.MouseButton)
+	case *resources.ControllerButton:
+		return inpututil.IsGamepadButtonJustPressed(value.ID, value.GamepadButton)
 	}
 	return false
 }

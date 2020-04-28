@@ -20,9 +20,7 @@
     [entity.components.AnimationControl]
     sprite_sheet_name = "bat"
     animation_name = "fly1"
-    end = { type = "Loop" }
-    command = { type = "Start" }
-    rate_multiplier = 1.0
+    end.type = "Loop"
 
 
 [[entity]]
@@ -37,9 +35,7 @@
     [entity.components.AnimationControl]
     sprite_sheet_name = "bat"
     animation_name = "fly2"
-    end = { type = "Loop" }
-    command = { type = "Start" }
-    rate_multiplier = 1.0
+    end.type = "Loop"
 
 
 [[entity]]
@@ -54,9 +50,7 @@
     [entity.components.AnimationControl]
     sprite_sheet_name = "bat"
     animation_name = "fly2"
-    end = { type = "Normal" }
-    command = { type = "Start" }
-    rate_multiplier = 1.0
+    end.type = "Normal"
 
 
 [[entity]]
@@ -71,6 +65,4 @@
     [entity.components.AnimationControl]
     sprite_sheet_name = "bat"
     animation_name = "fly2"
-    end = { type = "Stay" }
-    command = { type = "Start" }
-    rate_multiplier = 1.0
+    end.type = "Stay"

@@ -2,10 +2,12 @@ package resources
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/x-hgg-x/goecsengine/utils"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/x-hgg-x/go-toml"
 )
 
 // Key is a US keyboard key
@@ -53,12 +55,22 @@ func (b *ControllerButton) UnmarshalTOML(i interface{}) error {
 	return fmt.Errorf("unknown gamepad button: '%s'", data["button"].(string))
 }
 
-// Button can be a US keyboard key, a mouse button or a gamepad button
-type Button struct {
-	Type             string
+type button struct {
 	Key              *Key
 	MouseButton      *MouseButton      `toml:"mouse_button"`
 	ControllerButton *ControllerButton `toml:"controller"`
+}
+
+// Button can be a US keyboard key, a mouse button or a gamepad button
+type Button struct {
+	Value interface{}
+}
+
+// UnmarshalTOML fills structure fields from TOML data
+func (b *Button) UnmarshalTOML(i interface{}) error {
+	var err error
+	b.Value, err = getInterfaceValue(i, &button{})
+	return err
 }
 
 // Emulated is an emulated axis
@@ -80,12 +92,22 @@ type MouseAxis struct {
 	Axis int
 }
 
-// Axis can be an emulated axis, a gamepad axis or a mouse axis
-type Axis struct {
-	Type           string
+type axis struct {
 	Emulated       *Emulated
 	ControllerAxis *ControllerAxis `toml:"controller_axis"`
 	MouseAxis      *MouseAxis      `toml:"mouse_axis"`
+}
+
+// Axis can be an emulated axis, a gamepad axis or a mouse axis
+type Axis struct {
+	Value interface{}
+}
+
+// UnmarshalTOML fills structure fields from TOML data
+func (a *Axis) UnmarshalTOML(i interface{}) error {
+	var err error
+	a.Value, err = getInterfaceValue(i, &axis{})
+	return err
 }
 
 // Action contains buttons combinations with settings
@@ -110,4 +132,30 @@ type InputHandler struct {
 	Axes map[string]float64
 	// Actions contains input actions
 	Actions map[string]bool
+}
+
+func getInterfaceValue(treeMap interface{}, data interface{}) (interface{}, error) {
+	// Unmarshal from tree
+	if tree, err := toml.TreeFromMap(treeMap.(map[string]interface{})); err != nil {
+		return nil, err
+	} else if err := tree.Unmarshal(data); err != nil {
+		return nil, err
+	}
+
+	v := reflect.ValueOf(data).Elem()
+
+	// Get non-nil field
+	var typeName string
+	var value interface{}
+	for iField := 0; iField < v.NumField(); iField++ {
+		field := v.Field(iField)
+		if field.Kind() == reflect.Ptr && !field.IsNil() {
+			if typeName != "" {
+				return nil, fmt.Errorf("duplicate fields found: %s, %s", field.Elem().Type().Name(), typeName)
+			}
+			typeName = field.Elem().Type().Name()
+			value = field.Interface()
+		}
+	}
+	return value, nil
 }
