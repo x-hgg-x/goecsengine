@@ -128,7 +128,7 @@ func processComponentsListData(world w.World, data engineComponentListData) Engi
 type fillData struct {
 	Width  int
 	Height int
-	Color  []uint8
+	Color  [4]uint8
 }
 
 type spriteRenderData struct {
@@ -161,15 +161,6 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 	// Sprite is a colored rectangle
 	textureImage, err := ebiten.NewImage(spriteRenderData.Fill.Width, spriteRenderData.Fill.Height, ebiten.FilterNearest)
 	utils.LogError(err)
-
-	// Check color
-	if len(spriteRenderData.Fill.Color) == 0 {
-		spriteRenderData.Fill.Color = []uint8{0, 0, 0, 0}
-	}
-
-	if len(spriteRenderData.Fill.Color) != 4 {
-		utils.LogError(fmt.Errorf("color must be an array with 4 elements"))
-	}
 
 	textureImage.Fill(color.RGBA{
 		R: spriteRenderData.Fill.Color[0],
@@ -298,7 +289,7 @@ type textData struct {
 	ID       string
 	Text     string
 	FontFace fontFaceData `toml:"font_face"`
-	Color    []uint8
+	Color    [4]uint8
 }
 
 func processTextData(world w.World, textData *textData) *c.Text {
@@ -316,15 +307,6 @@ func processTextData(world w.World, textData *textData) *c.Text {
 	hinting, ok := hintingMap[textData.FontFace.Options.Hinting]
 	if !ok {
 		utils.LogError(fmt.Errorf("unknown hinting option: '%s'", textData.FontFace.Options.Hinting))
-	}
-
-	// Check color
-	if len(textData.Color) == 0 {
-		textData.Color = []uint8{0, 0, 0, 0}
-	}
-
-	if len(textData.Color) != 4 {
-		utils.LogError(fmt.Errorf("color must be an array with 4 elements"))
 	}
 
 	options := &truetype.Options{

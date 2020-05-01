@@ -4,8 +4,8 @@ go 1.14
 
 require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
-	github.com/hajimehoshi/ebiten v1.11.0
-	github.com/x-hgg-x/go-toml v1.7.1-0.20200428203004-c561df1f7ce2
+	github.com/hajimehoshi/ebiten v1.11.1
+	github.com/x-hgg-x/go-toml v1.7.1-0.20200501194901-2060d5f648c0
 	github.com/x-hgg-x/goecs/v2 v2.0.3
-	golang.org/x/image v0.0.0-20200119044424-58c23975cae1
+	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
 )
