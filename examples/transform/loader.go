@@ -5,7 +5,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
-	"github.com/x-hgg-x/go-toml"
+	"github.com/pelletier/go-toml"
 	ecs "github.com/x-hgg-x/goecs/v2"
 )
 

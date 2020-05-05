@@ -11,7 +11,7 @@ import (
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
-	"github.com/x-hgg-x/go-toml"
+	"github.com/pelletier/go-toml"
 	ecs "github.com/x-hgg-x/goecs/v2"
 	"golang.org/x/image/font"
 )

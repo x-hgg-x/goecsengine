@@ -3,7 +3,7 @@ package components
 import (
 	"fmt"
 
-	"github.com/x-hgg-x/go-toml"
+	"github.com/pelletier/go-toml"
 )
 
 // Animation structure

@@ -4,7 +4,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/resources"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/x-hgg-x/go-toml"
+	"github.com/pelletier/go-toml"
 )
 
 type fontMetadata struct {

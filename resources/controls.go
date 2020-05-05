@@ -7,7 +7,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/utils"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/x-hgg-x/go-toml"
+	"github.com/pelletier/go-toml"
 )
 
 // Key is a US keyboard key

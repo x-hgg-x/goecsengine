@@ -4,7 +4,7 @@ import (
 	c "github.com/x-hgg-x/goecsengine/components"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/x-hgg-x/go-toml"
+	"github.com/pelletier/go-toml"
 )
 
 type spriteSheetMetadata struct {
