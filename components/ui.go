@@ -21,6 +21,7 @@ type Text struct {
 
 // Pivot variants
 const (
+	Dot          = "Dot"
 	TopLeft      = "TopLeft"
 	TopMiddle    = "TopMiddle"
 	TopRight     = "TopRight"
@@ -54,6 +55,8 @@ func ComputeDotOffset(text string, fontFace font.Face, pivot string) (x, y int, 
 	centerY := ((bounds.Min.Y + bounds.Max.Y) / 2).Round()
 
 	switch pivot {
+	case Dot:
+		x, y = 0, 0
 	case TopLeft:
 		x, y = bounds.Min.X.Floor(), bounds.Min.Y.Floor()
 	case TopMiddle:
