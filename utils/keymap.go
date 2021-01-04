@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/hajimehoshi/ebiten"
+import "github.com/hajimehoshi/ebiten/v2"
 
 // KeyMap is a US keyboard mapping
 var KeyMap = map[string]ebiten.Key{

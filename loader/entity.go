@@ -10,7 +10,7 @@ import (
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	"github.com/golang/freetype/truetype"
-	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/pelletier/go-toml"
 	ecs "github.com/x-hgg-x/goecs/v2"
 	"golang.org/x/image/font"
@@ -159,9 +159,7 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 	}
 
 	// Sprite is a colored rectangle
-	textureImage, err := ebiten.NewImage(spriteRenderData.Fill.Width, spriteRenderData.Fill.Height, ebiten.FilterNearest)
-	utils.LogError(err)
-
+	textureImage := ebiten.NewImage(spriteRenderData.Fill.Width, spriteRenderData.Fill.Height)
 	textureImage.Fill(color.RGBA{
 		R: spriteRenderData.Fill.Color[0],
 		G: spriteRenderData.Fill.Color[1],

@@ -6,7 +6,7 @@ import (
 
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/pelletier/go-toml"
 )
 
@@ -40,7 +40,7 @@ func (b *MouseButton) UnmarshalText(text []byte) error {
 
 // ControllerButton is a gamepad button
 type ControllerButton struct {
-	ID            int
+	ID            ebiten.GamepadID
 	GamepadButton ebiten.GamepadButton
 }
 
@@ -48,7 +48,7 @@ type ControllerButton struct {
 func (b *ControllerButton) UnmarshalTOML(i interface{}) error {
 	data := i.(map[string]interface{})
 	if gamepadButton, ok := utils.GamepadButtonMap[data["button"].(string)]; ok {
-		b.ID = int(data["id"].(int64))
+		b.ID = ebiten.GamepadID(data["id"].(int64))
 		b.GamepadButton = gamepadButton
 		return nil
 	}
@@ -81,7 +81,7 @@ type Emulated struct {
 
 // ControllerAxis is a gamepad axis
 type ControllerAxis struct {
-	ID       int
+	ID       ebiten.GamepadID
 	Axis     int
 	Invert   bool
 	DeadZone float64 `toml:"dead_zone"`

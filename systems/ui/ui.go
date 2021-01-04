@@ -4,8 +4,8 @@ import (
 	c "github.com/x-hgg-x/goecsengine/components"
 	w "github.com/x-hgg-x/goecsengine/world"
 
-	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/inpututil"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	ecs "github.com/x-hgg-x/goecs/v2"
 )
 

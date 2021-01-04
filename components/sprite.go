@@ -4,8 +4,8 @@ import (
 	"github.com/x-hgg-x/goecsengine/math"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 // Sprite structure
@@ -28,7 +28,7 @@ type Texture struct {
 
 // UnmarshalText fills structure fields from text data
 func (t *Texture) UnmarshalText(text []byte) error {
-	textureImage, _, err := ebitenutil.NewImageFromFile(string(text), ebiten.FilterNearest)
+	textureImage, _, err := ebitenutil.NewImageFromFile(string(text))
 	utils.LogError(err)
 	t.Image = textureImage
 	return nil

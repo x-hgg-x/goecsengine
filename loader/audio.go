@@ -8,16 +8,15 @@ import (
 
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/hajimehoshi/ebiten/audio"
-	"github.com/hajimehoshi/ebiten/audio/mp3"
-	"github.com/hajimehoshi/ebiten/audio/vorbis"
-	"github.com/hajimehoshi/ebiten/audio/wav"
+	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
+	"github.com/hajimehoshi/ebiten/v2/audio/vorbis"
+	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 )
 
 // InitAudio creates a new audio context
 func InitAudio(sampleRate int) *audio.Context {
-	audioContext, err := audio.NewContext(sampleRate)
-	utils.LogError(err)
+	audioContext := audio.NewContext(sampleRate)
 	return audioContext
 }
 
@@ -26,7 +25,7 @@ func LoadAudio(audioContext *audio.Context, audioFilePath string) *audio.Player 
 	f, err := os.Open(audioFilePath)
 	utils.LogError(err)
 
-	var d io.ReadCloser
+	var d io.ReadSeeker
 	switch filepath.Ext(audioFilePath) {
 	case ".mp3":
 		d, err = mp3.Decode(audioContext, f)

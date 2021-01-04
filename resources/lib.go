@@ -3,7 +3,7 @@ package resources
 import (
 	"github.com/x-hgg-x/goecsengine/components"
 
-	"github.com/hajimehoshi/ebiten/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 )
 
 // Resources contains references to data not related to any entity

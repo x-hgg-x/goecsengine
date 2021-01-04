@@ -11,7 +11,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
-	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 // TransType is a transition type
@@ -49,23 +49,37 @@ type State interface {
 	// Executed when the state become active again (states pushed over this one have been popped)
 	OnResume(world w.World)
 	// Executed on every frame when the state is active
-	Update(world w.World, screen *ebiten.Image) Transition
+	Update(world w.World) Transition
 }
 
 // StateMachine contains a stack of states.
 // Only the top state is active.
 type StateMachine struct {
-	states []State
+	states         []State
+	lastTransition Transition
 }
 
 // Init creates a new state machine with an initial state
 func Init(s State, world w.World) StateMachine {
 	s.OnStart(world)
-	return StateMachine{[]State{s}}
+	return StateMachine{[]State{s}, Transition{TransNone, []State{}}}
 }
 
 // Update updates the state machine
-func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
+func (sm *StateMachine) Update(world w.World) {
+	switch sm.lastTransition.Type {
+	case TransPop:
+		sm._Pop(world)
+	case TransPush:
+		sm._Push(world, sm.lastTransition.NewStates)
+	case TransSwitch:
+		sm._Switch(world, sm.lastTransition.NewStates)
+	case TransReplace:
+		sm._Replace(world, sm.lastTransition.NewStates)
+	case TransQuit:
+		sm._Quit(world)
+	}
+
 	if len(sm.states) < 1 {
 		os.Exit(0)
 	}
@@ -75,26 +89,18 @@ func (sm *StateMachine) Update(world w.World, screen *ebiten.Image) {
 	u.UISystem(world)
 
 	// Run state update function with game systems
-	transition := sm.states[len(sm.states)-1].Update(world, screen)
+	sm.lastTransition = sm.states[len(sm.states)-1].Update(world)
 
 	// Run post-game systems
 	a.AnimationSystem(world)
 	s.TransformSystem(world)
+}
+
+// Draw draws the screen after a state update
+func (sm *StateMachine) Draw(world w.World, screen *ebiten.Image) {
+	// Run drawing systems
 	s.RenderSpriteSystem(world, screen)
 	u.RenderUISystem(world, screen)
-
-	switch transition.Type {
-	case TransPop:
-		sm._Pop(world)
-	case TransPush:
-		sm._Push(world, transition.NewStates)
-	case TransSwitch:
-		sm._Switch(world, transition.NewStates)
-	case TransReplace:
-		sm._Replace(world, transition.NewStates)
-	case TransQuit:
-		sm._Quit(world)
-	}
 }
 
 // Remove the active state and resume the next state
