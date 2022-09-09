@@ -1,37 +1,37 @@
 [[entity]]
 
-    [entity.components.Text]
-    id = "background"
-    text = "Background depths: 0, 1, 2, 3"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "background"
+text = "Background depths: 0, 1, 2, 3"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 10, y = 590 }
-    pivot = "TopLeft"
-
-
-[[entity]]
-
-    [entity.components.Text]
-    id = "rotation"
-    text = "Gopher rotation: 0"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
-
-    [entity.components.UITransform]
-    translation = { x = 10, y = 560 }
-    pivot = "TopLeft"
+[entity.components.UITransform]
+translation = { x = 10, y = 590 }
+pivot = "TopLeft"
 
 
 [[entity]]
 
-    [entity.components.Text]
-    id = "depth"
-    text = "Gopher depth: 0.25"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "rotation"
+text = "Gopher rotation: 0"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 10, y = 530 }
-    pivot = "TopLeft"
+[entity.components.UITransform]
+translation = { x = 10, y = 560 }
+pivot = "TopLeft"
+
+
+[[entity]]
+
+[entity.components.Text]
+id = "depth"
+text = "Gopher depth: 0.25"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
+
+[entity.components.UITransform]
+translation = { x = 10, y = 530 }
+pivot = "TopLeft"

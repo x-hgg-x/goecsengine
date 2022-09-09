@@ -1,5 +1,3 @@
 [sprite_sheet.gopher]
 texture_image = "../assets/textures/gopher.png"
-sprites = [
-    { x = 0, y = 0, width = 60, height = 60 },
-]
+sprites = [{ x = 0, y = 0, width = 60, height = 60 }]

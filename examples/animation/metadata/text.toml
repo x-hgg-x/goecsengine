@@ -1,141 +1,141 @@
 [[entity]]
 
-    [entity.components.Text]
-    id = "last_command"
-    text = "Last command: Start"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "last_command"
+text = "Last command: Start"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 10, y = 590 }
-    pivot = "TopLeft"
-
-
-[[entity]]
-
-    [entity.components.Text]
-    id = "aborted"
-    text = "Aborted: false"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
-
-    [entity.components.UITransform]
-    translation = { x = 10, y = 570 }
-    pivot = "TopLeft"
+[entity.components.UITransform]
+translation = { x = 10, y = 590 }
+pivot = "TopLeft"
 
 
 [[entity]]
 
-    [entity.components.Text]
-    id = "rate_multiplier"
-    text = "Rate multiplier: 1"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "aborted"
+text = "Aborted: false"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 590, y = 590 }
-    pivot = "TopRight"
-
-
-[[entity]]
-
-    [entity.components.Text]
-    id = "bat0"
-    text = "Time: 0.00 / Sprite: 0"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
-
-    [entity.components.UITransform]
-    translation = { x = 140, y = 380 }
-    pivot = "TopMiddle"
+[entity.components.UITransform]
+translation = { x = 10, y = 570 }
+pivot = "TopLeft"
 
 
 [[entity]]
 
-    [entity.components.Text]
-    id = "bat0_end"
-    text = "End: Loop"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "rate_multiplier"
+text = "Rate multiplier: 1"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 140, y = 360 }
-    pivot = "TopMiddle"
-
-
-[[entity]]
-
-    [entity.components.Text]
-    id = "bat1"
-    text = "Time: 0.00 / Sprite: 6"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
-
-    [entity.components.UITransform]
-    translation = { x = 440, y = 380 }
-    pivot = "TopMiddle"
+[entity.components.UITransform]
+translation = { x = 590, y = 590 }
+pivot = "TopRight"
 
 
 [[entity]]
 
-    [entity.components.Text]
-    id = "bat1_end"
-    text = "End: Loop"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "bat0"
+text = "Time: 0.00 / Sprite: 0"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 440, y = 360 }
-    pivot = "TopMiddle"
-
-
-[[entity]]
-
-    [entity.components.Text]
-    id = "bat2"
-    text = "Time: 0.00 / Sprite: 6"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
-
-    [entity.components.UITransform]
-    translation = { x = 140, y = 80 }
-    pivot = "TopMiddle"
+[entity.components.UITransform]
+translation = { x = 140, y = 380 }
+pivot = "TopMiddle"
 
 
 [[entity]]
 
-    [entity.components.Text]
-    id = "bat2_end"
-    text = "End: Normal"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "bat0_end"
+text = "End: Loop"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 140, y = 60 }
-    pivot = "TopMiddle"
-
-
-[[entity]]
-
-    [entity.components.Text]
-    id = "bat3"
-    text = "Time: 0.00 / Sprite: 6"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
-
-    [entity.components.UITransform]
-    translation = { x = 440, y = 80 }
-    pivot = "TopMiddle"
+[entity.components.UITransform]
+translation = { x = 140, y = 360 }
+pivot = "TopMiddle"
 
 
 [[entity]]
 
-    [entity.components.Text]
-    id = "bat3_end"
-    text = "End: Stay"
-    font_face = { font = "mplus", options.size = 15.0 }
-    color = [255, 255, 255, 255]
+[entity.components.Text]
+id = "bat1"
+text = "Time: 0.00 / Sprite: 6"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
 
-    [entity.components.UITransform]
-    translation = { x = 440, y = 60 }
-    pivot = "TopMiddle"
+[entity.components.UITransform]
+translation = { x = 440, y = 380 }
+pivot = "TopMiddle"
+
+
+[[entity]]
+
+[entity.components.Text]
+id = "bat1_end"
+text = "End: Loop"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
+
+[entity.components.UITransform]
+translation = { x = 440, y = 360 }
+pivot = "TopMiddle"
+
+
+[[entity]]
+
+[entity.components.Text]
+id = "bat2"
+text = "Time: 0.00 / Sprite: 6"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
+
+[entity.components.UITransform]
+translation = { x = 140, y = 80 }
+pivot = "TopMiddle"
+
+
+[[entity]]
+
+[entity.components.Text]
+id = "bat2_end"
+text = "End: Normal"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
+
+[entity.components.UITransform]
+translation = { x = 140, y = 60 }
+pivot = "TopMiddle"
+
+
+[[entity]]
+
+[entity.components.Text]
+id = "bat3"
+text = "Time: 0.00 / Sprite: 6"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
+
+[entity.components.UITransform]
+translation = { x = 440, y = 80 }
+pivot = "TopMiddle"
+
+
+[[entity]]
+
+[entity.components.Text]
+id = "bat3_end"
+text = "End: Stay"
+font_face = { font = "mplus", options.size = 15.0 }
+color = [255, 255, 255, 255]
+
+[entity.components.UITransform]
+translation = { x = 440, y = 60 }
+pivot = "TopMiddle"

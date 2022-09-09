@@ -1,63 +1,63 @@
 # Gopher
 [[entity]]
 
-    [entity.components.SpriteRender]
-    # Load from a spritesheet
-    sprite_sheet_name = "gopher"
-    sprite_number = 0
+[entity.components.SpriteRender]
+# Load from a spritesheet
+sprite_sheet_name = "gopher"
+sprite_number = 0
 
-    [entity.components.Transform]
-    translation = { x = 300.0, y = 300.0 }
-    depth = 0.25
+[entity.components.Transform]
+translation = { x = 300.0, y = 300.0 }
+depth = 0.25
 
-    [entity.components.Gopher]
+[entity.components.Gopher]
 
-    [entity.components.Sticky]
+[entity.components.Sticky]
 
 
 # Background 1
 [[entity]]
 
-    [entity.components.SpriteRender]
-    # Load from a colored rectangle image
-    fill = { width = 300, height = 300, color = [0, 0, 0, 255] }
+[entity.components.SpriteRender]
+# Load from a colored rectangle image
+fill = { width = 300, height = 300, color = [0, 0, 0, 255] }
 
-    [entity.components.Transform]
-    translation = { x = 150.0, y = 450.0 }
-    depth = 0.0
+[entity.components.Transform]
+translation = { x = 150.0, y = 450.0 }
+depth = 0.0
 
 
 # Background 2
 [[entity]]
 
-    [entity.components.SpriteRender]
-    # Load from a colored rectangle image
-    fill = { width = 300, height = 300, color = [60, 0, 0, 255] }
+[entity.components.SpriteRender]
+# Load from a colored rectangle image
+fill = { width = 300, height = 300, color = [60, 0, 0, 255] }
 
-    [entity.components.Transform]
-    translation = { x = 450.0, y = 450.0 }
-    depth = 1.0
+[entity.components.Transform]
+translation = { x = 450.0, y = 450.0 }
+depth = 1.0
 
 
 # Background 3
 [[entity]]
 
-    [entity.components.SpriteRender]
-    # Load from a colored rectangle image
-    fill = { width = 300, height = 300, color = [120, 0, 0, 255] }
+[entity.components.SpriteRender]
+# Load from a colored rectangle image
+fill = { width = 300, height = 300, color = [120, 0, 0, 255] }
 
-    [entity.components.Transform]
-    translation = { x = 150.0, y = 150.0 }
-    depth = 2.0
+[entity.components.Transform]
+translation = { x = 150.0, y = 150.0 }
+depth = 2.0
 
 
 # Background 4
 [[entity]]
 
-    [entity.components.SpriteRender]
-    # Load from a colored rectangle image
-    fill = { width = 300, height = 300, color = [180, 0, 0, 255] }
+[entity.components.SpriteRender]
+# Load from a colored rectangle image
+fill = { width = 300, height = 300, color = [180, 0, 0, 255] }
 
-    [entity.components.Transform]
-    translation = { x = 450.0, y = 150.0 }
-    depth = 3.0
+[entity.components.Transform]
+translation = { x = 450.0, y = 150.0 }
+depth = 3.0

@@ -1,9 +1,9 @@
 [[entity]]
 
-    [entity.components.SpriteRender]
-    sprite_sheet_name = "gopher"
-    sprite_number = 0
+[entity.components.SpriteRender]
+sprite_sheet_name = "gopher"
+sprite_number = 0
 
-    [entity.components.Transform]
+[entity.components.Transform]
 
-    [entity.components.Gopher]
+[entity.components.Gopher]
