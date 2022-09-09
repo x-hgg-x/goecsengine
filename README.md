@@ -30,7 +30,7 @@ It is passed as a parameter in all system and state functions.
 
 
 ## Deserialization from a TOML file
-The engine uses [a TOML parser](https://github.com/pelletier/go-toml) for reading TOML files. It uses the [TOML v1.0.0-rc.1](https://github.com/toml-lang/toml/blob/master/versions/en/toml-v1.0.0-rc.1.md) specification.
+The engine uses [a TOML parser](https://github.com/BurntSushi/toml) for reading TOML files. It uses the [TOML v1.0.0](https://toml.io/en/v1.0.0) specification.
 
 Deserialization is relatively straightforward, with TOML fields corresponding directly to components fields, with the exception of Text and SpriteRender components which need to load data dynamically.
 

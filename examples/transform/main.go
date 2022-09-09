@@ -56,7 +56,7 @@ func main() {
 	fonts := loader.LoadFonts("metadata/fonts.toml")
 	world.Resources.Fonts = &fonts
 
-	ebiten.SetWindowResizable(true)
+	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
 	ebiten.SetWindowSize(windowWidth, windowHeight)
 	ebiten.SetWindowTitle("Demo")
 

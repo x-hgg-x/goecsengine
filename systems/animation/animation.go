@@ -1,7 +1,6 @@
 package animationsystem
 
 import (
-	"fmt"
 	"math"
 
 	c "github.com/x-hgg-x/goecsengine/components"
@@ -23,19 +22,18 @@ func AnimationSystem(world w.World) {
 		spriteNumbers := animationControl.Animation.SpriteNumber
 
 		currentTime := animationControl.GetState().CurrentTime
-		animationPos := computeAnimationPos(currentTime, times)
 
 		// Process command
 		switch animationControl.Command.Type {
 		case c.AnimationCommandRestart:
 			animationControl.SetStateType(c.ControlStateRunning)
 			currentTime = 0
-			animationPos = 0
 
 		case c.AnimationCommandStart:
 			animationControl.SetStateType(c.ControlStateRunning)
 
 		case c.AnimationCommandStepBackward:
+			animationPos := computeAnimationPos(currentTime, times)
 			if animationControl.End.Type == c.EndControlLoop && animationPos == 0 {
 				animationPos = len(spriteNumbers) - 1
 			} else {
@@ -44,6 +42,7 @@ func AnimationSystem(world w.World) {
 			currentTime = times[animationPos]
 
 		case c.AnimationCommandStepForward:
+			animationPos := computeAnimationPos(currentTime, times)
 			if animationControl.End.Type == c.EndControlLoop && animationPos == len(spriteNumbers)-1 {
 				animationPos = 0
 			} else {
@@ -53,7 +52,6 @@ func AnimationSystem(world w.World) {
 
 		case c.AnimationCommandSetTime:
 			currentTime = math.Min(math.Max(animationControl.Command.Time, times[0]), times[len(times)-1])
-			animationPos = computeAnimationPos(currentTime, times)
 
 		case c.AnimationCommandPause:
 			animationControl.SetStateType(c.ControlStatePaused)
@@ -66,8 +64,9 @@ func AnimationSystem(world w.World) {
 			break
 
 		default:
-			utils.LogError(fmt.Errorf("unknown animation command: %v", animationControl.Command.Type))
+			utils.LogFatalf("unknown animation command: %v", animationControl.Command.Type)
 		}
+
 		// Reset command
 		animationControl.Command = c.AnimationCommand{}
 
@@ -88,14 +87,13 @@ func AnimationSystem(world w.World) {
 				animationControl.SetStateType(c.ControlStateDone)
 				currentTime = times[len(times)-1]
 			default:
-				utils.LogError(fmt.Errorf("unknown end control: %v", animationControl.End.Type))
+				utils.LogFatalf("unknown end control: %v", animationControl.End.Type)
 			}
 		}
-		animationPos = computeAnimationPos(currentTime, times)
 
 		// Set animation state
 		animationControl.SetCurrentTime(currentTime)
-		sprite.SpriteNumber = spriteNumbers[animationPos]
+		sprite.SpriteNumber = spriteNumbers[computeAnimationPos(currentTime, times)]
 	}))
 }
 

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/x-hgg-x/goecsengine/loader"
 	"github.com/x-hgg-x/goecsengine/states"
 	w "github.com/x-hgg-x/goecsengine/world"
 
@@ -20,8 +19,8 @@ func (st *GameplayState) OnResume(world w.World) {}
 
 // OnStart method
 func (st *GameplayState) OnStart(world w.World) {
-	loader.LoadEntities("metadata/game.toml", world, nil)
-	loader.LoadEntities("metadata/text.toml", world, nil)
+	LoadEntities("metadata/game.toml", world)
+	LoadEntities("metadata/text.toml", world)
 }
 
 // OnStop method

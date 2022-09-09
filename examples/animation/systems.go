@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	c "github.com/x-hgg-x/goecsengine/components"
-	"github.com/x-hgg-x/goecsengine/loader"
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	ecs "github.com/x-hgg-x/goecs/v2"
@@ -18,10 +17,7 @@ func DemoSystem(world w.World) {
 	// Check if there are running animations
 	runningAnimations := world.Manager.Join(world.Components.Engine.AnimationControl).Visit(
 		func(index int) (skip bool) {
-			if world.Components.Engine.AnimationControl.Get(ecs.Entity(index)).(*c.AnimationControl).GetState().Type == c.ControlStateRunning {
-				return true
-			}
-			return false
+			return world.Components.Engine.AnimationControl.Get(ecs.Entity(index)).(*c.AnimationControl).GetState().Type == c.ControlStateRunning
 		})
 
 	// Restart
@@ -153,7 +149,7 @@ func DemoSystem(world w.World) {
 	// Reset entities
 	if world.Resources.InputHandler.Actions[ResetAction] {
 		world.Manager.DeleteAllEntities()
-		loader.LoadEntities("metadata/game.toml", world, nil)
-		loader.LoadEntities("metadata/text.toml", world, nil)
+		LoadEntities("metadata/game.toml", world)
+		LoadEntities("metadata/text.toml", world)
 	}
 }

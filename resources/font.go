@@ -1,7 +1,7 @@
 package resources
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/x-hgg-x/goecsengine/utils"
 
@@ -15,9 +15,7 @@ type Font struct {
 
 // UnmarshalTOML fills structure fields from TOML data
 func (f *Font) UnmarshalTOML(i interface{}) error {
-	fontFile, err := ioutil.ReadFile(i.(map[string]interface{})["font"].(string))
-	utils.LogError(err)
-	f.Font, err = truetype.Parse(fontFile)
-	utils.LogError(err)
+	fontFile := utils.Try(os.ReadFile(i.(map[string]interface{})["font"].(string)))
+	f.Font = utils.Try(truetype.Parse(fontFile))
 	return nil
 }

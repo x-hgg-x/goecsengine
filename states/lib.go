@@ -1,7 +1,6 @@
 package states
 
 import (
-	"fmt"
 	"os"
 
 	a "github.com/x-hgg-x/goecsengine/systems/animation"
@@ -131,7 +130,7 @@ func (sm *StateMachine) _Push(world w.World, newStates []State) {
 // Remove the active state and replace it by a new one
 func (sm *StateMachine) _Switch(world w.World, newStates []State) {
 	if len(newStates) != 1 {
-		utils.LogError(fmt.Errorf("switch transition accept only one new state"))
+		utils.LogFatalf("switch transition accept only one new state")
 	}
 
 	sm.states[len(sm.states)-1].OnStop(world)

@@ -4,7 +4,7 @@ import (
 	"github.com/x-hgg-x/goecsengine/resources"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/pelletier/go-toml"
+	"github.com/BurntSushi/toml"
 )
 
 type fontMetadata struct {
@@ -14,8 +14,6 @@ type fontMetadata struct {
 // LoadFonts loads fonts from a TOML file
 func LoadFonts(fontPath string) map[string]resources.Font {
 	var fontMetadata fontMetadata
-	tree, err := toml.LoadFile(fontPath)
-	utils.LogError(err)
-	utils.LogError(tree.Unmarshal(&fontMetadata))
+	utils.Try(toml.DecodeFile(fontPath, &fontMetadata))
 	return fontMetadata.Fonts
 }

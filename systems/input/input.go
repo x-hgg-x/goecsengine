@@ -34,7 +34,7 @@ func getAxisValue(world w.World, axis resources.Axis) float64 {
 		}
 	case *resources.ControllerAxis:
 		deadZone := math.Abs(value.DeadZone)
-		axisValue = ebiten.GamepadAxis(value.ID, value.Axis)
+		axisValue = ebiten.GamepadAxisValue(value.ID, value.Axis)
 
 		if axisValue < -deadZone {
 			axisValue = (axisValue + deadZone) / (1.0 - deadZone)

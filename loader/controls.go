@@ -1,12 +1,10 @@
 package loader
 
 import (
-	"fmt"
-
 	"github.com/x-hgg-x/goecsengine/resources"
 	"github.com/x-hgg-x/goecsengine/utils"
 
-	"github.com/pelletier/go-toml"
+	"github.com/BurntSushi/toml"
 )
 
 type controlsConfig struct {
@@ -16,9 +14,7 @@ type controlsConfig struct {
 // LoadControls loads controls from a TOML file
 func LoadControls(controlsConfigPath string, axes []string, actions []string) (resources.Controls, resources.InputHandler) {
 	var controlsConfig controlsConfig
-	tree, err := toml.LoadFile(controlsConfigPath)
-	utils.LogError(err)
-	utils.LogError(tree.Unmarshal(&controlsConfig))
+	utils.Try(toml.DecodeFile(controlsConfigPath, &controlsConfig))
 
 	var inputHandler resources.InputHandler
 	inputHandler.Axes = make(map[string]float64)
@@ -27,7 +23,7 @@ func LoadControls(controlsConfigPath string, axes []string, actions []string) (r
 	// Check axes
 	for _, axis := range axes {
 		if _, ok := controlsConfig.Controls.Axes[axis]; !ok {
-			utils.LogError(fmt.Errorf("unable to find controls for axis '%s'", axis))
+			utils.LogFatalf("unable to find controls for axis '%s'", axis)
 		}
 		inputHandler.Axes[axis] = 0
 	}
@@ -35,7 +31,7 @@ func LoadControls(controlsConfigPath string, axes []string, actions []string) (r
 	// Check actions
 	for _, action := range actions {
 		if _, ok := controlsConfig.Controls.Actions[action]; !ok {
-			utils.LogError(fmt.Errorf("unable to find controls for action '%s'", action))
+			utils.LogFatalf("unable to find controls for action '%s'", action)
 		}
 		inputHandler.Actions[action] = false
 	}

@@ -28,8 +28,7 @@ type Texture struct {
 
 // UnmarshalText fills structure fields from text data
 func (t *Texture) UnmarshalText(text []byte) error {
-	textureImage, _, err := ebitenutil.NewImageFromFile(string(text))
-	utils.LogError(err)
+	textureImage, _ := utils.Try2(ebitenutil.NewImageFromFile(string(text)))
 	t.Image = textureImage
 	return nil
 }

@@ -1,7 +1,7 @@
 package loader
 
 import (
-	"fmt"
+	"bytes"
 	"io"
 	"os"
 	"path/filepath"
@@ -22,23 +22,19 @@ func InitAudio(sampleRate int) *audio.Context {
 
 // LoadAudio loads an audio file and returns an audio player
 func LoadAudio(audioContext *audio.Context, audioFilePath string) *audio.Player {
-	f, err := os.Open(audioFilePath)
-	utils.LogError(err)
+	f := bytes.NewReader(utils.Try(os.ReadFile(audioFilePath)))
 
 	var d io.ReadSeeker
 	switch filepath.Ext(audioFilePath) {
 	case ".mp3":
-		d, err = mp3.Decode(audioContext, f)
+		d = utils.Try(mp3.DecodeWithSampleRate(audioContext.SampleRate(), f))
 	case ".ogg":
-		d, err = vorbis.Decode(audioContext, f)
+		d = utils.Try(vorbis.DecodeWithSampleRate(audioContext.SampleRate(), f))
 	case ".wav":
-		d, err = wav.Decode(audioContext, f)
+		d = utils.Try(wav.DecodeWithSampleRate(audioContext.SampleRate(), f))
 	default:
-		utils.LogError(fmt.Errorf("unknown audio file extension: '%s'", filepath.Ext(audioFilePath)))
+		utils.LogFatalf("unknown audio file extension: '%s'", filepath.Ext(audioFilePath))
 	}
-	utils.LogError(err)
 
-	audioPlayer, err := audio.NewPlayer(audioContext, d)
-	utils.LogError(err)
-	return audioPlayer
+	return utils.Try(audioContext.NewPlayer(d))
 }

@@ -3,11 +3,12 @@ package resources
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/x-hgg-x/goecsengine/utils"
 
+	"github.com/BurntSushi/toml"
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/pelletier/go-toml"
 )
 
 // Key is a US keyboard key
@@ -134,11 +135,12 @@ type InputHandler struct {
 	Actions map[string]bool
 }
 
-func getInterfaceValue(treeMap interface{}, data interface{}) (interface{}, error) {
-	// Unmarshal from tree
-	if tree, err := toml.TreeFromMap(treeMap.(map[string]interface{})); err != nil {
+func getInterfaceValue(tomlMap interface{}, data interface{}) (interface{}, error) {
+	// Unmarshal after serialization
+	var encoded strings.Builder
+	if err := toml.NewEncoder(&encoded).Encode(tomlMap); err != nil {
 		return nil, err
-	} else if err := tree.Unmarshal(data); err != nil {
+	} else if err := toml.Unmarshal([]byte(encoded.String()), data); err != nil {
 		return nil, err
 	}
 

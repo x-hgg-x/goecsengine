@@ -2,8 +2,9 @@ package components
 
 import (
 	"fmt"
+	"strings"
 
-	"github.com/pelletier/go-toml"
+	"github.com/BurntSushi/toml"
 )
 
 // Animation structure
@@ -20,10 +21,11 @@ func (a *Animation) UnmarshalTOML(i interface{}) error {
 	type animation Animation
 	var data animation
 
-	// Unmarshal from tree
-	if tree, err := toml.TreeFromMap(i.(map[string]interface{})); err != nil {
+	// Unmarshal after serialization
+	var encoded strings.Builder
+	if err := toml.NewEncoder(&encoded).Encode(i); err != nil {
 		return err
-	} else if err := tree.Unmarshal(&data); err != nil {
+	} else if err := toml.Unmarshal([]byte(encoded.String()), &data); err != nil {
 		return err
 	}
 

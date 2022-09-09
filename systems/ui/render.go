@@ -17,8 +17,7 @@ func RenderUISystem(world w.World, screen *ebiten.Image) {
 		uiTransform := world.Components.Engine.UITransform.Get(entity).(*c.UITransform)
 
 		// Compute dot offset
-		x, y, err := c.ComputeDotOffset(textData.Text, textData.FontFace, uiTransform.Pivot)
-		utils.LogError(err)
+		x, y := utils.Try2(c.ComputeDotOffset(textData.Text, textData.FontFace, uiTransform.Pivot))
 
 		// Draw text
 		screenHeight := world.Resources.ScreenDimensions.Height

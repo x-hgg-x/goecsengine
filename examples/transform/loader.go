@@ -1,11 +1,13 @@
 package main
 
 import (
+	"os"
+
 	"github.com/x-hgg-x/goecsengine/loader"
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
-	"github.com/pelletier/go-toml"
+	"github.com/BurntSushi/toml"
 	ecs "github.com/x-hgg-x/goecs/v2"
 )
 
@@ -22,11 +24,9 @@ type entityGameMetadata struct {
 	Entities []entity `toml:"entity"`
 }
 
-func loadGameComponents(entityMetadataPath string, world w.World) []interface{} {
+func loadGameComponents(entityMetadataContent []byte, world w.World) []interface{} {
 	var entityGameMetadata entityGameMetadata
-	tree, err := toml.LoadFile(entityMetadataPath)
-	utils.LogError(err)
-	utils.LogError(tree.Unmarshal(&entityGameMetadata))
+	utils.Try(toml.Decode(string(entityMetadataContent), &entityGameMetadata))
 
 	gameComponentList := make([]interface{}, len(entityGameMetadata.Entities))
 	for iEntity, entity := range entityGameMetadata.Entities {
@@ -37,6 +37,7 @@ func loadGameComponents(entityMetadataPath string, world w.World) []interface{} 
 
 // LoadEntities creates entities with components from a TOML file
 func LoadEntities(entityMetadataPath string, world w.World) []ecs.Entity {
-	gameComponentList := loadGameComponents(entityMetadataPath, world)
-	return loader.LoadEntities(entityMetadataPath, world, gameComponentList)
+	entityMetadataContent := utils.Try(os.ReadFile(entityMetadataPath))
+	gameComponentList := loadGameComponents(entityMetadataContent, world)
+	return loader.LoadEntities(entityMetadataContent, world, gameComponentList)
 }

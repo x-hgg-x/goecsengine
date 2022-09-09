@@ -1,8 +1,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/x-hgg-x/goecsengine/loader"
 	"github.com/x-hgg-x/goecsengine/states"
+	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 )
 
@@ -17,7 +20,7 @@ func (st *GameplayState) OnResume(world w.World) {}
 
 // OnStart method
 func (st *GameplayState) OnStart(world w.World) {
-	loader.LoadEntities("game.toml", world, nil)
+	loader.LoadEntities(utils.Try(os.ReadFile("game.toml")), world, nil)
 }
 
 // OnStop method

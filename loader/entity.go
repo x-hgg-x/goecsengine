@@ -1,7 +1,6 @@
 package loader
 
 import (
-	"fmt"
 	"image/color"
 	"reflect"
 
@@ -9,9 +8,9 @@ import (
 	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
+	"github.com/BurntSushi/toml"
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/pelletier/go-toml"
 	ecs "github.com/x-hgg-x/goecs/v2"
 	"golang.org/x/image/font"
 )
@@ -33,9 +32,9 @@ type EntityComponentList struct {
 }
 
 // LoadEntities creates entities with components from a TOML file
-func LoadEntities(entityMetadataPath string, world w.World, gameComponentList []interface{}) []ecs.Entity {
+func LoadEntities(entityMetadataContent []byte, world w.World, gameComponentList []interface{}) []ecs.Entity {
 	entityComponentList := EntityComponentList{
-		Engine: LoadEngineComponents(entityMetadataPath, world),
+		Engine: LoadEngineComponents(entityMetadataContent, world),
 		Game:   gameComponentList,
 	}
 	return AddEntities(world, entityComponentList)
@@ -53,7 +52,7 @@ func AddEntities(world w.World, entityComponentList EntityComponentList) []ecs.E
 	// Add game components
 	if entityComponentList.Game != nil {
 		if len(entityComponentList.Game) != len(entityComponentList.Engine) {
-			utils.LogError(fmt.Errorf("incorrect size for game component list"))
+			utils.LogFatalf("incorrect size for game component list")
 		}
 		for iEntity := range entities {
 			AddEntityComponents(entities[iEntity], world.Components.Game, entityComponentList.Game[iEntity])
@@ -96,12 +95,10 @@ type entityEngineMetadata struct {
 	Entities []entity `toml:"entity"`
 }
 
-// LoadEngineComponents loads engine components from a TOML file
-func LoadEngineComponents(entityMetadataPath string, world w.World) []EngineComponentList {
+// LoadEngineComponents loads engine components from a TOML byte slice
+func LoadEngineComponents(entityMetadataContent []byte, world w.World) []EngineComponentList {
 	var entityEngineMetadata entityEngineMetadata
-	tree, err := toml.LoadFile(entityMetadataPath)
-	utils.LogError(err)
-	utils.LogError(tree.Unmarshal(&entityEngineMetadata))
+	utils.Try(toml.Decode(string(entityMetadataContent), &entityEngineMetadata))
 
 	engineComponentList := make([]EngineComponentList, len(entityEngineMetadata.Entities))
 	for iEntity, entity := range entityEngineMetadata.Entities {
@@ -142,7 +139,7 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 		return nil
 	}
 	if spriteRenderData.Fill != nil && spriteRenderData.SpriteSheetName != "" {
-		utils.LogError(fmt.Errorf("fill and sprite_sheet_name fields are exclusive"))
+		utils.LogFatalf("fill and sprite_sheet_name fields are exclusive")
 	}
 
 	// Sprite is included in sprite sheet
@@ -150,7 +147,7 @@ func processSpriteRenderData(world w.World, spriteRenderData *spriteRenderData) 
 		// Add reference to sprite sheet
 		spriteSheet, ok := (*world.Resources.SpriteSheets)[spriteRenderData.SpriteSheetName]
 		if !ok {
-			utils.LogError(fmt.Errorf("unable to find sprite sheet with name '%s'", spriteRenderData.SpriteSheetName))
+			utils.LogFatalf("unable to find sprite sheet with name '%s'", spriteRenderData.SpriteSheetName)
 		}
 		return &c.SpriteRender{
 			SpriteSheet:  &spriteSheet,
@@ -192,7 +189,7 @@ type endControlData struct {
 }
 
 var animationCommandMap = map[string]c.AnimationCommandType{
-	"":             c.AnimationCommandNone,
+	"":             c.AnimationCommandStart,
 	"None":         c.AnimationCommandNone,
 	"Restart":      c.AnimationCommandRestart,
 	"Start":        c.AnimationCommandStart,
@@ -204,7 +201,7 @@ var animationCommandMap = map[string]c.AnimationCommandType{
 }
 
 type animationCommandData struct {
-	Type string `default:"Start"`
+	Type string
 	Time float64
 }
 
@@ -213,7 +210,7 @@ type animationControlData struct {
 	AnimationName   string `toml:"animation_name"`
 	End             endControlData
 	Command         animationCommandData
-	RateMultiplier  float64 `toml:"rate_multiplier" default:"1.0"`
+	RateMultiplier1 float64 `toml:"rate_multiplier_minus_1"`
 }
 
 func processAnimationControlData(world w.World, data engineComponentListData) *c.AnimationControl {
@@ -225,36 +222,36 @@ func processAnimationControlData(world w.World, data engineComponentListData) *c
 
 	// Find spritesheet
 	if animationControlData.SpriteSheetName != spriteRenderData.SpriteSheetName {
-		utils.LogError(fmt.Errorf("AnimationControl and SpriteRender components don't have the same sprite sheet ('%s' vs '%s')", animationControlData.SpriteSheetName, spriteRenderData.SpriteSheetName))
+		utils.LogFatalf("AnimationControl and SpriteRender components don't have the same sprite sheet ('%s' vs '%s')", animationControlData.SpriteSheetName, spriteRenderData.SpriteSheetName)
 	}
 	spriteSheet, ok := (*world.Resources.SpriteSheets)[animationControlData.SpriteSheetName]
 	if !ok {
-		utils.LogError(fmt.Errorf("unable to find sprite sheet with name '%s'", animationControlData.SpriteSheetName))
+		utils.LogFatalf("unable to find sprite sheet with name '%s'", animationControlData.SpriteSheetName)
 	}
 
 	// Find animation
 	animation, ok := spriteSheet.Animations[animationControlData.AnimationName]
 	if !ok {
-		utils.LogError(fmt.Errorf("unable to find animation with name '%s'", animationControlData.AnimationName))
+		utils.LogFatalf("unable to find animation with name '%s'", animationControlData.AnimationName)
 	}
 
 	// Check end control
 	endControl, ok := endControlMap[animationControlData.End.Type]
 	if !ok {
-		utils.LogError(fmt.Errorf("unknown end control option: '%s'", animationControlData.End.Type))
+		utils.LogFatalf("unknown end control option: '%s'", animationControlData.End.Type)
 	}
 
 	// Check animation command
 	animationCommand, ok := animationCommandMap[animationControlData.Command.Type]
 	if !ok {
-		utils.LogError(fmt.Errorf("unknown animation command option: '%s'", animationControlData.Command.Type))
+		utils.LogFatalf("unknown animation command option: '%s'", animationControlData.Command.Type)
 	}
 
 	return &c.AnimationControl{
 		Animation:      animation,
 		End:            c.EndControl{Type: endControl},
 		Command:        c.AnimationCommand{Type: animationCommand, Time: animationControlData.Command.Time},
-		RateMultiplier: animationControlData.RateMultiplier,
+		RateMultiplier: animationControlData.RateMultiplier1 + 1,
 	}
 }
 
@@ -265,14 +262,14 @@ func processAnimationControlData(world w.World, data engineComponentListData) *c
 type fontFaceOptions struct {
 	Size              float64
 	DPI               float64
-	Hinting           string `default:"Full"`
-	GlyphCacheEntries int    `toml:"glyph_cache_entries"`
-	SubPixelsX        int    `toml:"sub_pixels_x"`
-	SubPixelsY        int    `toml:"sub_pixels_y"`
+	Hinting           string
+	GlyphCacheEntries int `toml:"glyph_cache_entries"`
+	SubPixelsX        int `toml:"sub_pixels_x"`
+	SubPixelsY        int `toml:"sub_pixels_y"`
 }
 
 var hintingMap = map[string]font.Hinting{
-	"":         font.HintingNone,
+	"":         font.HintingFull,
 	"None":     font.HintingNone,
 	"Vertical": font.HintingVertical,
 	"Full":     font.HintingFull,
@@ -298,13 +295,13 @@ func processTextData(world w.World, textData *textData) *c.Text {
 	// Search font from its name
 	textFont, ok := (*world.Resources.Fonts)[textData.FontFace.Font]
 	if !ok {
-		utils.LogError(fmt.Errorf("unable to find font with name '%s'", textData.FontFace.Font))
+		utils.LogFatalf("unable to find font with name '%s'", textData.FontFace.Font)
 	}
 
 	// Check hinting
 	hinting, ok := hintingMap[textData.FontFace.Options.Hinting]
 	if !ok {
-		utils.LogError(fmt.Errorf("unknown hinting option: '%s'", textData.FontFace.Options.Hinting))
+		utils.LogFatalf("unknown hinting option: '%s'", textData.FontFace.Options.Hinting)
 	}
 
 	options := &truetype.Options{
