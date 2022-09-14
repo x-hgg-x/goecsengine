@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	windowWidth  = 600
-	windowHeight = 600
+	gameWidth  = 600
+	gameHeight = 600
 )
 
 type mainGame struct {
@@ -23,7 +23,7 @@ type mainGame struct {
 }
 
 func (game *mainGame) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return windowWidth, windowHeight
+	return gameWidth, gameHeight
 }
 
 func (game *mainGame) Update() error {
@@ -39,7 +39,7 @@ func main() {
 	world := w.InitWorld(nil)
 
 	// Init screen dimensions
-	world.Resources.ScreenDimensions = &r.ScreenDimensions{Width: windowWidth, Height: windowHeight}
+	world.Resources.ScreenDimensions = &r.ScreenDimensions{Width: gameWidth, Height: gameHeight}
 
 	// Load controls
 	axes := []string{}
@@ -60,7 +60,7 @@ func main() {
 	world.Resources.Fonts = &fonts
 
 	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
-	ebiten.SetWindowSize(windowWidth, windowHeight)
+	ebiten.SetWindowSize(gameWidth, gameHeight)
 	ebiten.SetWindowTitle("Demo")
 
 	utils.LogError(ebiten.RunGame(&mainGame{world, s.Init(&GameplayState{}, world)}))
