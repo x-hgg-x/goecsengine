@@ -53,6 +53,19 @@ type SpriteRender struct {
 	Options ebiten.DrawImageOptions
 }
 
+// Transform origin variants
+const (
+	TransformOriginTopLeft      = "TopLeft"
+	TransformOriginTopMiddle    = "TopMiddle"
+	TransformOriginTopRight     = "TopRight"
+	TransformOriginMiddleLeft   = "MiddleLeft"
+	TransformOriginMiddle       = "Middle"
+	TransformOriginMiddleRight  = "MiddleRight"
+	TransformOriginBottomLeft   = "BottomLeft"
+	TransformOriginBottomMiddle = "BottomMiddle"
+	TransformOriginBottomRight  = "BottomRight"
+)
+
 // Transform component.
 // The origin (0, 0) is the lower left part of screen.
 // Image is first rotated, then scaled, and finally translated.
@@ -63,6 +76,8 @@ type Transform struct {
 	Rotation float64
 	// Translation defines the position of the image center relative to the origin.
 	Translation math.Vector2
+	// Origin defines the origin (0, 0) relative to the screen. Default is "BottomLeft".
+	Origin string
 	// Depth determines the drawing order on the screen. Images with higher depth are drawn above others.
 	Depth float64
 }
@@ -95,5 +110,11 @@ func (t *Transform) SetTranslation(tx, ty float64) *Transform {
 // SetDepth sets transform depth.
 func (t *Transform) SetDepth(depth float64) *Transform {
 	t.Depth = depth
+	return t
+}
+
+// SetOrigin sets transform origin.
+func (t *Transform) SetOrigin(origin string) *Transform {
+	t.Origin = origin
 	return t
 }

@@ -7,7 +7,8 @@ font_face = { font = "mplus", options.size = 15.0 }
 color = [255, 255, 255, 255]
 
 [entity.components.UITransform]
-translation = { x = 10, y = 590 }
+translation = { x = 10, y = -10 }
+origin = "TopLeft"
 pivot = "TopLeft"
 
 
@@ -20,7 +21,8 @@ font_face = { font = "mplus", options.size = 15.0 }
 color = [255, 255, 255, 255]
 
 [entity.components.UITransform]
-translation = { x = 10, y = 560 }
+translation = { x = 10, y = -40 }
+origin = "TopLeft"
 pivot = "TopLeft"
 
 
@@ -33,5 +35,6 @@ font_face = { font = "mplus", options.size = 15.0 }
 color = [255, 255, 255, 255]
 
 [entity.components.UITransform]
-translation = { x = 10, y = 530 }
+translation = { x = 10, y = -70 }
+origin = "TopLeft"
 pivot = "TopLeft"

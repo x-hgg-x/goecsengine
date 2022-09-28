@@ -15,28 +15,41 @@ type Text struct {
 	Text     string
 	FontFace font.Face
 	Color    color.RGBA
-	OffsetX  int
-	OffsetY  int
 }
 
 // Pivot variants
 const (
-	Dot          = "Dot"
-	TopLeft      = "TopLeft"
-	TopMiddle    = "TopMiddle"
-	TopRight     = "TopRight"
-	MiddleLeft   = "MiddleLeft"
-	Middle       = "Middle"
-	MiddleRight  = "MiddleRight"
-	BottomLeft   = "BottomLeft"
-	BottomMiddle = "BottomMiddle"
-	BottomRight  = "BottomRight"
+	PivotDot          = "Dot"
+	PivotTopLeft      = "TopLeft"
+	PivotTopMiddle    = "TopMiddle"
+	PivotTopRight     = "TopRight"
+	PivotMiddleLeft   = "MiddleLeft"
+	PivotMiddle       = "Middle"
+	PivotMiddleRight  = "MiddleRight"
+	PivotBottomLeft   = "BottomLeft"
+	PivotBottomMiddle = "BottomMiddle"
+	PivotBottomRight  = "BottomRight"
+)
+
+// UI Transform origin variants
+const (
+	UITransformOriginTopLeft      = "TopLeft"
+	UITransformOriginTopMiddle    = "TopMiddle"
+	UITransformOriginTopRight     = "TopRight"
+	UITransformOriginMiddleLeft   = "MiddleLeft"
+	UITransformOriginMiddle       = "Middle"
+	UITransformOriginMiddleRight  = "MiddleRight"
+	UITransformOriginBottomLeft   = "BottomLeft"
+	UITransformOriginBottomMiddle = "BottomMiddle"
+	UITransformOriginBottomRight  = "BottomRight"
 )
 
 // UITransform component
 type UITransform struct {
 	// Translation defines the position of the pivot relative to the origin.
 	Translation math.VectorInt2
+	// Origin defines the origin (0, 0) relative to the screen. Default is "BottomLeft".
+	Origin string
 	// Pivot defines the position of the element relative to its translation (default is Middle).
 	Pivot string
 }
@@ -55,27 +68,27 @@ func ComputeDotOffset(text string, fontFace font.Face, pivot string) (x, y int, 
 	centerY := ((bounds.Min.Y + bounds.Max.Y) / 2).Round()
 
 	switch pivot {
-	case Dot:
+	case PivotDot:
 		x, y = 0, 0
-	case TopLeft:
+	case PivotTopLeft:
 		x, y = bounds.Min.X.Floor(), bounds.Min.Y.Floor()
-	case TopMiddle:
+	case PivotTopMiddle:
 		x, y = centerX, bounds.Min.Y.Floor()
-	case TopRight:
+	case PivotTopRight:
 		x, y = bounds.Max.X.Ceil(), bounds.Min.Y.Floor()
-	case MiddleLeft:
+	case PivotMiddleLeft:
 		x, y = bounds.Min.X.Floor(), centerY
-	case Middle:
+	case PivotMiddle:
 		x, y = centerX, centerY
-	case MiddleRight:
+	case PivotMiddleRight:
 		x, y = bounds.Max.X.Ceil(), centerY
-	case BottomLeft:
+	case PivotBottomLeft:
 		x, y = bounds.Min.X.Floor(), bounds.Max.Y.Ceil()
-	case BottomMiddle:
+	case PivotBottomMiddle:
 		x, y = centerX, bounds.Max.Y.Ceil()
-	case BottomRight:
+	case PivotBottomRight:
 		x, y = bounds.Max.X.Ceil(), bounds.Max.Y.Ceil()
-	case "": // Middle
+	case "": // PivotMiddle
 		x, y = centerX, centerY
 	default:
 		err = fmt.Errorf("unknown pivot value: %s", pivot)

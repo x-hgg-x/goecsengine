@@ -1,7 +1,10 @@
 package spritesystem
 
 import (
+	"fmt"
+
 	c "github.com/x-hgg-x/goecsengine/components"
+	"github.com/x-hgg-x/goecsengine/utils"
 	w "github.com/x-hgg-x/goecsengine/world"
 
 	ecs "github.com/x-hgg-x/goecs/v2"
@@ -30,7 +33,36 @@ func TransformSystem(world w.World) {
 		sprite.Options.GeoM.Rotate(-transform.Rotation)
 
 		// Perform translation
+		var offsetX, offsetY float64
+
+		screenWidth := float64(world.Resources.ScreenDimensions.Width)
 		screenHeight := float64(world.Resources.ScreenDimensions.Height)
-		sprite.Options.GeoM.Translate(transform.Translation.X, screenHeight-transform.Translation.Y)
+
+		switch transform.Origin {
+		case c.TransformOriginTopLeft:
+			offsetX, offsetY = 0, screenHeight
+		case c.TransformOriginTopMiddle:
+			offsetX, offsetY = screenWidth/2, screenHeight
+		case c.TransformOriginTopRight:
+			offsetX, offsetY = screenWidth, screenHeight
+		case c.TransformOriginMiddleLeft:
+			offsetX, offsetY = 0, screenHeight/2
+		case c.TransformOriginMiddle:
+			offsetX, offsetY = screenWidth/2, screenHeight/2
+		case c.TransformOriginMiddleRight:
+			offsetX, offsetY = screenWidth, screenHeight/2
+		case c.TransformOriginBottomLeft:
+			offsetX, offsetY = 0, 0
+		case c.TransformOriginBottomMiddle:
+			offsetX, offsetY = screenWidth/2, 0
+		case c.TransformOriginBottomRight:
+			offsetX, offsetY = screenWidth, 0
+		case "": // TransformOriginBottomLeft
+			offsetX, offsetY = 0, 0
+		default:
+			utils.LogError(fmt.Errorf("unknown transform origin value: %s", transform.Origin))
+		}
+
+		sprite.Options.GeoM.Translate(transform.Translation.X+offsetX, screenHeight-transform.Translation.Y-offsetY)
 	}))
 }

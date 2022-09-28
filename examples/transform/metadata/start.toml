@@ -7,7 +7,8 @@ sprite_sheet_name = "gopher"
 sprite_number = 0
 
 [entity.components.Transform]
-translation = { x = 300.0, y = 300.0 }
+translation = { x = 0.0, y = 0.0 }
+origin = "Middle"
 depth = 0.25
 
 [entity.components.Gopher]
