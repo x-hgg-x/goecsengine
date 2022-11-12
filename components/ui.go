@@ -5,6 +5,7 @@ import (
 	"image/color"
 
 	"github.com/x-hgg-x/goecsengine/math"
+	"github.com/x-hgg-x/goecsengine/utils"
 
 	"golang.org/x/image/font"
 )
@@ -31,7 +32,7 @@ const (
 	PivotBottomRight  = "BottomRight"
 )
 
-// UI Transform origin variants
+// UI transform origin variants
 const (
 	UITransformOriginTopLeft      = "TopLeft"
 	UITransformOriginTopMiddle    = "TopMiddle"
@@ -52,6 +53,35 @@ type UITransform struct {
 	Origin string
 	// Pivot defines the position of the element relative to its translation (default is Middle).
 	Pivot string
+}
+
+// ComputeOriginOffset returns the UI transform origin offset
+func (t *UITransform) ComputeOriginOffset(screenWidth, screenHeight int) (offsetX, offsetY int) {
+	switch t.Origin {
+	case UITransformOriginTopLeft:
+		offsetX, offsetY = 0, screenHeight
+	case UITransformOriginTopMiddle:
+		offsetX, offsetY = screenWidth/2, screenHeight
+	case UITransformOriginTopRight:
+		offsetX, offsetY = screenWidth, screenHeight
+	case UITransformOriginMiddleLeft:
+		offsetX, offsetY = 0, screenHeight/2
+	case UITransformOriginMiddle:
+		offsetX, offsetY = screenWidth/2, screenHeight/2
+	case UITransformOriginMiddleRight:
+		offsetX, offsetY = screenWidth, screenHeight/2
+	case UITransformOriginBottomLeft:
+		offsetX, offsetY = 0, 0
+	case UITransformOriginBottomMiddle:
+		offsetX, offsetY = screenWidth/2, 0
+	case UITransformOriginBottomRight:
+		offsetX, offsetY = screenWidth, 0
+	case "": // UITransformOriginBottomLeft
+		offsetX, offsetY = 0, 0
+	default:
+		utils.LogError(fmt.Errorf("unknown UI transform origin value: %s", t.Origin))
+	}
+	return
 }
 
 // MouseReactive component

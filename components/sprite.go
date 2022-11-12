@@ -1,6 +1,8 @@
 package components
 
 import (
+	"fmt"
+
 	"github.com/x-hgg-x/goecsengine/math"
 	"github.com/x-hgg-x/goecsengine/utils"
 
@@ -117,4 +119,33 @@ func (t *Transform) SetDepth(depth float64) *Transform {
 func (t *Transform) SetOrigin(origin string) *Transform {
 	t.Origin = origin
 	return t
+}
+
+// ComputeOriginOffset returns the transform origin offset.
+func (t *Transform) ComputeOriginOffset(screenWidth, screenHeight float64) (offsetX, offsetY float64) {
+	switch t.Origin {
+	case TransformOriginTopLeft:
+		offsetX, offsetY = 0, screenHeight
+	case TransformOriginTopMiddle:
+		offsetX, offsetY = screenWidth/2, screenHeight
+	case TransformOriginTopRight:
+		offsetX, offsetY = screenWidth, screenHeight
+	case TransformOriginMiddleLeft:
+		offsetX, offsetY = 0, screenHeight/2
+	case TransformOriginMiddle:
+		offsetX, offsetY = screenWidth/2, screenHeight/2
+	case TransformOriginMiddleRight:
+		offsetX, offsetY = screenWidth, screenHeight/2
+	case TransformOriginBottomLeft:
+		offsetX, offsetY = 0, 0
+	case TransformOriginBottomMiddle:
+		offsetX, offsetY = screenWidth/2, 0
+	case TransformOriginBottomRight:
+		offsetX, offsetY = screenWidth, 0
+	case "": // TransformOriginBottomLeft
+		offsetX, offsetY = 0, 0
+	default:
+		utils.LogError(fmt.Errorf("unknown transform origin value: %s", t.Origin))
+	}
+	return
 }
