@@ -1,13 +1,13 @@
 module github.com/x-hgg-x/goecsengine
 
-go 1.19
+go 1.25.0
 
 require (
 	github.com/BurntSushi/toml v1.2.1
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/hajimehoshi/ebiten/v2 v2.4.12
 	github.com/x-hgg-x/goecs/v2 v2.0.5
-	golang.org/x/image v0.18.0
+	golang.org/x/image v0.38.0
 )
 
 require (
